@@ -81,7 +81,7 @@ function deleteProduct(id: string): void {
   products.delete(id);
 }
 
-export const productRepository = {
+export const ProductRepository = {
   getProductByBarCode,
   insertProduct,
   updateProductQuantity,
