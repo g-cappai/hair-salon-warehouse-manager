@@ -1,16 +1,16 @@
 import { Product } from "../../entity/Product.entity";
-import { productRepository } from "../../repository/product.in-memory.repository";
+import { ProductRepository } from "../../repository/product.in-memory.repository";
 
 export const ProductService = {
   async getProductByBarCode(barCode: string): Promise<Product | null> {
-    return productRepository.getProductByBarCode(barCode);
+    return ProductRepository.getProductByBarCode(barCode);
   },
 
   async createProduct(productData: {
     name: string;
     barCode: string;
   }): Promise<Product> {
-    return productRepository.insertProduct({
+    return ProductRepository.insertProduct({
       barCode: productData.barCode,
       name: productData.name,
       quantity: 1,
@@ -22,6 +22,6 @@ export const ProductService = {
     quantityToIncrease: number
   ): Promise<Product> {
     const newQuantity = product.quantity + quantityToIncrease;
-    return productRepository.updateProductQuantity(product.id, newQuantity);
+    return ProductRepository.updateProductQuantity(product.id, newQuantity);
   },
 };
