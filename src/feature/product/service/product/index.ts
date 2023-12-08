@@ -2,16 +2,16 @@ import { Product } from "../../entity/Product.entity";
 import { productRepository } from "../../repository/product.in-memory.repository";
 
 export const productService = {
-  async getProductByBarcode(barcode: string): Promise<Product | null> {
-    return productRepository.getProductByBarcode(barcode);
+  async getProductByBarCode(barCode: string): Promise<Product | null> {
+    return productRepository.getProductByBarCode(barCode);
   },
 
   async createProduct(productData: {
     name: string;
-    barcode: string;
+    barCode: string;
   }): Promise<Product> {
     return productRepository.insertProduct({
-      barcode: productData.barcode,
+      barCode: productData.barCode,
       name: productData.name,
       quantity: 1,
     });

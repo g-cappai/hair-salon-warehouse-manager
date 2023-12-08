@@ -1,6 +1,6 @@
 export type Product = {
   id: string;
-  barcode: string;
+  barCode: string;
   name: string;
   quantity: number;
 };

@@ -2,7 +2,7 @@ import { Product } from "../entity/Product.entity";
 
 type ProductModel = {
   id: string;
-  barcode: string;
+  barCode: string;
   name: string;
   quantity: number;
 };
@@ -11,37 +11,37 @@ const products = new Map<string, ProductModel>();
 
 // -----------------------------------------------------------------------------
 
-async function getProductByBarcode(barcode: string): Promise<Product | null> {
+async function getProductByBarCode(barCode: string): Promise<Product | null> {
   const dbProduct: ProductModel | undefined = Array.from(
     products.values()
-  ).find((p) => p.barcode === barcode);
+  ).find((p) => p.barCode === barCode);
 
   if (!dbProduct) {
     return null;
   }
 
   return {
-    id: barcode,
-    barcode: dbProduct.barcode,
+    id: barCode,
+    barCode: dbProduct.barCode,
     name: dbProduct.name,
     quantity: dbProduct.quantity,
   };
 }
 
 async function insertProduct({
-  barcode,
+  barCode,
   name,
   quantity,
 }: Omit<Product, "id">): Promise<Product> {
-  const dbProduct: ProductModel = { id: barcode, barcode, name, quantity };
+  const dbProduct: ProductModel = { id: barCode, barCode, name, quantity };
 
-  if (products.has(barcode)) {
+  if (products.has(barCode)) {
     throw new RepositoryError(ServiceErrorStatus.EXISTING_PRODUCT);
   }
 
-  products.set(barcode, dbProduct);
+  products.set(barCode, dbProduct);
 
-  return { id: barcode, barcode, name, quantity };
+  return { id: barCode, barCode, name, quantity };
 }
 
 async function updateProductQuantity(
@@ -56,7 +56,7 @@ async function updateProductQuantity(
 
   const updatedProduct: ProductModel = {
     id: dbProduct.id,
-    barcode: dbProduct.barcode,
+    barCode: dbProduct.barCode,
     name: dbProduct.name,
     quantity: newQuantity,
   };
@@ -64,8 +64,8 @@ async function updateProductQuantity(
   products.set(dbProduct.id, updatedProduct);
 
   return {
-    id: dbProduct.barcode,
-    barcode: dbProduct.barcode,
+    id: dbProduct.barCode,
+    barCode: dbProduct.barCode,
     name: dbProduct.name,
     quantity: newQuantity,
   };
@@ -82,7 +82,7 @@ function deleteProduct(id: string): void {
 }
 
 export const productRepository = {
-  getProductByBarcode,
+  getProductByBarCode,
   insertProduct,
   updateProductQuantity,
 };
