@@ -1,4 +1,5 @@
 import { BarCodeScannedCallback, BarCodeScanner } from "expo-barcode-scanner";
+import { StyleSheet } from "react-native";
 
 type Props = { onBarCodeScanned: (barCode: string) => void; isPaused: boolean };
 
@@ -14,7 +15,14 @@ export function ScannerCameraPreview({ isPaused, onBarCodeScanned }: Props) {
         BarCodeScanner.Constants.BarCodeType.ean8,
       ]}
       onBarCodeScanned={isPaused ? undefined : handleBarCodeScanned}
-      style={{ height: "100%", width: "100%" }}
+      style={styles.scanner}
     />
   );
 }
+
+const styles = StyleSheet.create({
+  scanner: {
+    height: "100%",
+    width: "100%",
+  },
+});

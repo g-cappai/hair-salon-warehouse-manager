@@ -11,11 +11,11 @@ export default function ScannerFrame({ children }: PropsWithChildren) {
 
 const styles = StyleSheet.create({
   crop: {
-    backgroundColor: "#bbb",
-    overflow: "hidden",
-    justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#bbb",
     height: "100%",
+    justifyContent: "center",
+    overflow: "hidden",
   },
   frame: {
     height: "auto",
