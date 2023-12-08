@@ -11,21 +11,24 @@ const products = new Map<string, ProductModel>();
 
 // -----------------------------------------------------------------------------
 
+async function _simulateDelay<T>(val: T): Promise<T> {
+  return new Promise((resolve) => setTimeout(() => resolve(val), 2000));
+}
+
 async function getProductByBarCode(barCode: string): Promise<Product | null> {
   const dbProduct: ProductModel | undefined = Array.from(
     products.values()
   ).find((p) => p.barCode === barCode);
-
   if (!dbProduct) {
-    return null;
+    return _simulateDelay(null);
   }
 
-  return {
+  return _simulateDelay({
     id: barCode,
     barCode: dbProduct.barCode,
     name: dbProduct.name,
     quantity: dbProduct.quantity,
-  };
+  });
 }
 
 async function insertProduct({
