@@ -3123,6 +3123,13 @@ expo-asset@~8.10.1:
     path-browserify "^1.0.0"
     url-parse "^1.5.9"
 
+expo-barcode-scanner@~12.5.3:
+  version "12.5.3"
+  resolved "https://registry.yarnpkg.com/expo-barcode-scanner/-/expo-barcode-scanner-12.5.3.tgz#10a12aec48e7c017a7b025a3b01fb06166939573"
+  integrity sha512-aIeTiOUzPdngTIhZHhM1mOMx9CPtmYEtEkK8pAgyua3NiAKgsUN8z8bpiQWuZTrxSaqkU8fG1zGOk9E4VnNwyA==
+  dependencies:
+    expo-image-loader "~4.3.0"
+
 expo-build-properties@~0.8.3:
   version "0.8.3"
   resolved "https://registry.yarnpkg.com/expo-build-properties/-/expo-build-properties-0.8.3.tgz#fbfa156e9619bebda71c66af9a26ebc3490b2365"
@@ -3186,6 +3193,11 @@ expo-font@~11.4.0:
   dependencies:
     fontfaceobserver "^2.1.0"
 
+expo-image-loader@~4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/expo-image-loader/-/expo-image-loader-4.3.0.tgz#d897b4d4f1838faa8291c36f00b99c2b36a6ac5c"
+  integrity sha512-2kqJIO+oYM8J3GbvTUHLqTSpt1dLpOn/X0eB4U4RTuzz/faj8l/TyQELsMBLlGAkweNUuG9LqznbaBz+WuSFEw==
+
 expo-json-utils@~0.7.0:
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/expo-json-utils/-/expo-json-utils-0.7.1.tgz#efe315c982113204be46419cbc26d4d9a2af145f"
@@ -3222,6 +3234,13 @@ expo-modules-core@1.5.12:
   dependencies:
     compare-versions "^3.4.0"
     invariant "^2.2.4"
+
+expo-splash-screen@~0.20.5:
+  version "0.20.5"
+  resolved "https://registry.yarnpkg.com/expo-splash-screen/-/expo-splash-screen-0.20.5.tgz#ebeba3e3977606830f74f506ab2cc25042bb7efd"
+  integrity sha512-nTALYdjHpeEA30rdOWSguxn72ctv8WM8ptuUgpfRgsWyn4i6rwYds/rBXisX69XO5fg+XjHAQqijGx/b28+3tg==
+  dependencies:
+    "@expo/prebuild-config" "6.2.6"
 
 expo-status-bar@~1.6.0:
   version "1.6.0"
