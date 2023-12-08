@@ -1,0 +1,25 @@
+{
+  "plugins": ["react", "react-native", "@typescript-eslint"],
+  "parser": "@typescript-eslint/parser",
+
+  "env": {
+    "react-native/react-native": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react-native/all",
+    "plugin:react/recommended"
+  ],
+  "root": true,
+  "settings": { "react": { "version": "detect" } },
+  "overrides": [
+    {
+      "files": "*",
+      "rules": {
+        "react/react-in-jsx-scope": 0,
+        "react-native/no-color-literals": 0
+      }
+    }
+  ]
+}
