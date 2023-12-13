@@ -5,5 +5,6 @@ export function useGetProductByBarCode(barCode: string) {
   return useQuery({
     queryKey: ["products", barCode],
     queryFn: () => ProductService.getProductByBarCode(barCode),
+    enabled: !!barCode,
   });
 }
