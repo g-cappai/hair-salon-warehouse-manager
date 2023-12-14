@@ -7,7 +7,7 @@ type Props = {
   onSubmit: (submittedValues: { name: string; barCode: string }) => void;
 };
 
-export function CreateNew({ barCode, onSubmit }: Props) {
+export function CreateProductForm({ barCode, onSubmit }: Props) {
   const { mutate: createProduct } = useCreateProduct();
 
   const [productName, setProductName] = useState("");

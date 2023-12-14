@@ -1,6 +1,6 @@
 import { useGetProductByBarCode } from "../../hooks/useGetProductByBarCode";
-import { CreateNew } from "./CreateNew";
-import { UpdateQuantity } from "./UpdateQuantity";
+import { CreateProductForm } from "./CreateProductForm";
+import { UpdateProductForm } from "./UpdateProductForm";
 import { Loading } from "./Loading";
 
 type Props = { isOpen: boolean; barCode: string; onClose: () => void };
@@ -21,8 +21,14 @@ export function ProductDiscoveryModal({ isOpen, barCode, onClose }: Props) {
   }
 
   if (!product) {
-    return <CreateNew barCode={barCode} onSubmit={onClose} />;
+    return <CreateProductForm barCode={barCode} onSubmit={onClose} />;
   }
 
-  return <UpdateQuantity />;
+  return (
+    <UpdateProductForm
+      productId={product.id}
+      currentQuantity={product.quantity}
+      onCancel={onClose}
+    />
+  );
 }

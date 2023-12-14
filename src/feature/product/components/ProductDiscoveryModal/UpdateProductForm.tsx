@@ -7,7 +7,7 @@ type Props = {
   onCancel: () => void;
 };
 
-export function UpdateQuantity({
+export function UpdateProductForm({
   productId,
   currentQuantity,
   onCancel,
