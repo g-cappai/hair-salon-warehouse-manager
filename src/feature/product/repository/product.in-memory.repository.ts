@@ -31,6 +31,10 @@ async function getProductByBarCode(barCode: string): Promise<Product | null> {
   });
 }
 
+async function getProducts(): Promise<Product[]> {
+  return Array.from(products.values());
+}
+
 async function insertProduct({
   barCode,
   name,
@@ -85,6 +89,7 @@ function deleteProduct(id: string): void {
 }
 
 export const ProductRepository = {
+  getProducts,
   getProductByBarCode,
   insertProduct,
   updateProductQuantity,

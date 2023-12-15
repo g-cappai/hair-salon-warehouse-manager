@@ -2,10 +2,15 @@ import { Product } from "../../entity/Product.entity";
 import { ProductRepository } from "../../repository/product.in-memory.repository";
 
 export const ProductService = {
+  getProducts,
   getProductByBarCode,
   createProduct,
   updateProductQuantity,
 };
+
+async function getProducts(): Promise<Product[]> {
+  return ProductRepository.getProducts();
+}
 
 async function getProductByBarCode(barCode: string): Promise<Product | null> {
   return ProductRepository.getProductByBarCode(barCode);
