@@ -1,8 +1,9 @@
 import { BarCodeScanner, PermissionStatus } from "expo-barcode-scanner";
 import { useEffect, useState } from "react";
-import { Text } from "react-native";
+import { Button, Text } from "react-native";
 import ScannerFrame from "./ScannerFrame";
 import { ScannerCameraPreview } from "./ScannerCameraPreview";
+import appConstants from "src/lib/utils/appConstants";
 
 type Props = {
   /**
@@ -22,6 +23,11 @@ type Props = {
 };
 
 export function Scanner({ isActive, isPaused, onScan }: Props) {
+  if (appConstants.IS_EMULATOR)
+    return (
+      <Button title="SCAN" onPress={() => onScan("1234")} disabled={isPaused} />
+    );
+
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   // TODO Permission setup
   // There are 4 display states
