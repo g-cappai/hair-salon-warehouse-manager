@@ -3,7 +3,7 @@ import { ProductService } from "../service/product";
 
 export function useGetProductByBarCode(barCode: string) {
   return useQuery({
-    queryKey: ["products", barCode],
+    queryKey: ["product", barCode],
     queryFn: () => ProductService.getProductByBarCode(barCode),
     enabled: !!barCode,
   });
