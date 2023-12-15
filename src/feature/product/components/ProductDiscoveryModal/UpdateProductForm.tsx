@@ -15,11 +15,17 @@ export function UpdateProductForm({
   const { mutate: updateProductQuantity } = useUpdateProductQuantity();
 
   const handleIncreaseByOne = () => {
-    updateProductQuantity({ productId, newQuantity: currentQuantity + 1 });
+    updateProductQuantity(
+      { productId, newQuantity: currentQuantity + 1 },
+      { onSuccess: onCancel }
+    );
   };
 
   const handleDecreaseByOne = () => {
-    updateProductQuantity({ productId, newQuantity: currentQuantity - 1 });
+    updateProductQuantity(
+      { productId, newQuantity: currentQuantity - 1 },
+      { onSuccess: onCancel }
+    );
   };
 
   const handleCancel = () => {
