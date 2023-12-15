@@ -8,8 +8,11 @@ type RenderItemParams<T> = {
 type Props<T> = {
   data: ArrayLike<T> | null | undefined;
   renderItem: ({ item }: RenderItemParams<T>) => ReactElement;
+  keyExtractor?: (item: T) => string;
 };
 
-export function List<T>({ data, renderItem }: Props<T>) {
-  return <FlatList data={data} renderItem={renderItem} />;
+export function List<T>({ data, renderItem, keyExtractor }: Props<T>) {
+  return (
+    <FlatList keyExtractor={keyExtractor} data={data} renderItem={renderItem} />
+  );
 }
