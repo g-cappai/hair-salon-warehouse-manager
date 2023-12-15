@@ -12,9 +12,9 @@ export default function Layout() {
           tabBarLabelPosition: "beside-icon",
         }}
       >
-        <Tabs.Screen name="index" options={{ href: null }} />
         <Tabs.Screen name="warehouse" options={{ title: "Magazzino" }} />
         <Tabs.Screen name="scanner" options={{ title: "Scanner" }} />
+        <Tabs.Screen name="index" options={{ href: null }} redirect={true} />
       </Tabs>
     </QueryClientProvider>
   );
