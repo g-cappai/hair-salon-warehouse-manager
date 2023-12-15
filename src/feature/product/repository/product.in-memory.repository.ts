@@ -66,12 +66,12 @@ async function updateProductQuantity(
 
   products.set(dbProduct.id, updatedProduct);
 
-  return {
+  return _simulateDelay({
     id: dbProduct.barCode,
     barCode: dbProduct.barCode,
     name: dbProduct.name,
     quantity: newQuantity,
-  };
+  });
 }
 
 function deleteProduct(id: string): void {
