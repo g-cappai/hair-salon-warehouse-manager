@@ -1,7 +1,7 @@
 import { StyleSheet, View } from "react-native";
 import { useState } from "react";
-import { Scanner } from "src/feature/scanner/components";
-import { ProductDiscoveryModal } from "src/feature/product/components";
+import { Scanner } from "src/features/scanner/components";
+import { ProductDiscoveryModal } from "src/features/product/components";
 import { useFocusEffect } from "expo-router";
 
 export default function ScannerPage() {
