@@ -21,24 +21,32 @@ export default function ScannerPage() {
 
   return (
     <View style={styles.container}>
-      <Scanner
-        isPaused={isScanningPaused}
-        isActive={isScannerActive}
-        onScan={setBarCode}
-      />
-      <ProductDiscoveryModal
-        isOpen={!!barCode}
-        barCode={barCode}
-        onClose={handleCloseModal}
-      />
+      <View style={styles.row}>
+        <Scanner
+          isPaused={isScanningPaused}
+          isActive={isScannerActive}
+          onScan={setBarCode}
+        />
+      </View>
+      <View style={styles.row}>
+        <ProductDiscoveryModal
+          isOpen={!!barCode}
+          barCode={barCode}
+          onClose={handleCloseModal}
+        />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    alignItems: "stretch",
     backgroundColor: "#fff",
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "space-around",
+  },
+  row: {
+    maxHeight: "50%",
   },
 });
