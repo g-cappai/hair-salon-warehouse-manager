@@ -1,5 +1,5 @@
-import { Text } from "react-native";
+import { WarehouseList } from "src/feature/product/components/WarehouseList";
 
 export default function WarehousePage() {
-  return <Text>Squarehouse</Text>;
+  return <WarehouseList />;
 }
