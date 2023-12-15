@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Button, Text } from "react-native";
 import ScannerFrame from "./ScannerFrame";
 import { ScannerCameraPreview } from "./ScannerCameraPreview";
-import appConstants from "src/lib/utils/appConstants";
+import appConstants from "src/misc/appConstants";
 
 type Props = {
   /**
