@@ -14,6 +14,9 @@ export function useUpdateProductQuantity() {
   return useMutation({
     mutationFn: ({ productId, newQuantity }: UpdateProductQuantityParams) =>
       ProductService.updateProductQuantity(productId, newQuantity),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["products"] }),
+    onSuccess: ({ id }) => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      queryClient.invalidateQueries({ queryKey: ["product", id] });
+    },
   });
 }
