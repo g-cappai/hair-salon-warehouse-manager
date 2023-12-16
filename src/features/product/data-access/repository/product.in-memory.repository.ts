@@ -62,7 +62,6 @@ async function insertProduct({
     name,
     quantity,
   };
-  console.log(dbProduct);
 
   if (products.has(dbProduct.id)) {
     throw new RepositoryError(ServiceErrorStatus.EXISTING_PRODUCT);
@@ -70,7 +69,6 @@ async function insertProduct({
 
   products.set(dbProduct.id, dbProduct);
 
-  console.log(products.values());
   return { id: dbProduct.id, barCode, name, quantity };
 }
 
