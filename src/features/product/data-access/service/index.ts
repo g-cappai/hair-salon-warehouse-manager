@@ -14,6 +14,7 @@ IF in the hand this will still be just a proxy or some kind of DI container, can
 
 export const ProductService = {
   getProducts,
+  getProductById,
   getProductByBarCode,
   createProduct,
   updateProductQuantity,
@@ -21,6 +22,10 @@ export const ProductService = {
 
 async function getProducts(): Promise<Product[]> {
   return ProductRepository.getProducts();
+}
+
+async function getProductById(id: string): Promise<Product | null> {
+  return ProductRepository.getProductById(id);
 }
 
 async function getProductByBarCode(barCode: string): Promise<Product | null> {

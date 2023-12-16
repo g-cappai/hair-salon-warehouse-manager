@@ -15,10 +15,26 @@ async function _simulateDelay<T>(val: T): Promise<T> {
   return new Promise((resolve) => setTimeout(() => resolve(val), 2000));
 }
 
+async function getProductById(id: string): Promise<Product | null> {
+  const dbProduct: ProductModel | undefined = products.get(id);
+
+  if (!dbProduct) {
+    return _simulateDelay(null);
+  }
+
+  return _simulateDelay({
+    id: id,
+    barCode: dbProduct.barCode,
+    name: dbProduct.name,
+    quantity: dbProduct.quantity,
+  });
+}
+
 async function getProductByBarCode(barCode: string): Promise<Product | null> {
   const dbProduct: ProductModel | undefined = Array.from(
     products.values()
   ).find((p) => p.barCode === barCode);
+
   if (!dbProduct) {
     return _simulateDelay(null);
   }
@@ -90,6 +106,7 @@ function deleteProduct(id: string): void {
 
 export const ProductRepository = {
   getProducts,
+  getProductById,
   getProductByBarCode,
   insertProduct,
   updateProductQuantity,
