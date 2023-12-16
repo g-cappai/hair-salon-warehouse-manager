@@ -19,6 +19,7 @@ export const ProductService = {
   createProduct,
   updateProduct,
   updateProductQuantity,
+  deleteProductById,
 };
 
 async function getProducts(): Promise<Product[]> {
@@ -55,4 +56,8 @@ async function updateProductQuantity(
   newQuantity: number
 ): Promise<Product> {
   return ProductRepository.updateProductQuantity(productId, newQuantity);
+}
+
+async function deleteProductById(id: string): Promise<void> {
+  return ProductRepository.deleteProduct(id);
 }

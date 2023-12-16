@@ -140,6 +140,7 @@ export const ProductRepository = {
   insertProduct,
   updateProduct,
   updateProductQuantity,
+  deleteProduct,
 };
 
 // -----------------------------------------------------
