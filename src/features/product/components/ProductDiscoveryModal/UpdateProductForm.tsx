@@ -1,5 +1,5 @@
 import { Button, View } from "react-native";
-import { useUpdateProductQuantity } from "../../hooks/useUpdateProductQuantity";
+import { useUpdateProductQuantity } from "../../data-access/hooks/useUpdateProductQuantity";
 
 type Props = {
   productId: string;

@@ -1,7 +1,7 @@
-import { useGetProductByBarCode } from "../../hooks/useGetProductByBarCode";
 import { CreateProductForm } from "./CreateProductForm";
 import { UpdateProductForm } from "./UpdateProductForm";
 import { Loading } from "./Loading";
+import { useGetProductByBarCode } from "../../data-access/hooks/useGetProductByBarCode";
 
 type Props = { isOpen: boolean; barCode: string; onClose: () => void };
 

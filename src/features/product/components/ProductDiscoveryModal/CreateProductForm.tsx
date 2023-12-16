@@ -1,6 +1,6 @@
 import { Button, TextInput, View } from "react-native";
-import { useCreateProduct } from "../../hooks/useCreateProduct";
 import { useState } from "react";
+import { useCreateProduct } from "../../data-access/hooks/useCreateProduct";
 
 type Props = {
   barCode: string;
