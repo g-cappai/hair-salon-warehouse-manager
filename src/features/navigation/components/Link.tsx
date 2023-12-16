@@ -4,5 +4,9 @@ import { PropsWithChildren } from "react";
 type Props<T> = { href: Href<T> } & PropsWithChildren;
 
 export function Link<T>({ href, children }: Props<T>) {
-  return <ExpoRouterLink href={href}>{children}</ExpoRouterLink>;
+  return (
+    <ExpoRouterLink asChild href={href}>
+      {children}
+    </ExpoRouterLink>
+  );
 }
