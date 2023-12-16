@@ -114,7 +114,7 @@ async function updateProductQuantity(
   products.set(dbProduct.id, updatedProduct);
 
   return _simulateDelay({
-    id: dbProduct.barCode,
+    id: dbProduct.id,
     barCode: dbProduct.barCode,
     name: dbProduct.name,
     quantity: newQuantity,
