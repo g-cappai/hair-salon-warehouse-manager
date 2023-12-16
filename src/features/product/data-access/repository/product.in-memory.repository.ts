@@ -40,7 +40,7 @@ async function getProductByBarCode(barCode: string): Promise<Product | null> {
   }
 
   return _simulateDelay({
-    id: barCode,
+    id: dbProduct.id,
     barCode: dbProduct.barCode,
     name: dbProduct.name,
     quantity: dbProduct.quantity,
