@@ -17,6 +17,7 @@ export const ProductService = {
   getProductById,
   getProductByBarCode,
   createProduct,
+  updateProduct,
   updateProductQuantity,
 };
 
@@ -43,6 +44,10 @@ async function createProduct(productData: ProductData): Promise<Product> {
     name: productData.name,
     quantity: 1,
   });
+}
+
+async function updateProduct(updatedProduct: Product): Promise<Product> {
+  return ProductRepository.updateProduct(updatedProduct);
 }
 
 async function updateProductQuantity(

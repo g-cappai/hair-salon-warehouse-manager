@@ -56,15 +56,44 @@ async function insertProduct({
   name,
   quantity,
 }: Omit<Product, "id">): Promise<Product> {
-  const dbProduct: ProductModel = { id: barCode, barCode, name, quantity };
+  const dbProduct: ProductModel = {
+    id: (+Math.random().toPrecision(4) * 10000).toString(),
+    barCode,
+    name,
+    quantity,
+  };
+  console.log(dbProduct);
 
-  if (products.has(barCode)) {
+  if (products.has(dbProduct.id)) {
     throw new RepositoryError(ServiceErrorStatus.EXISTING_PRODUCT);
   }
 
-  products.set(barCode, dbProduct);
+  products.set(dbProduct.id, dbProduct);
 
-  return { id: barCode, barCode, name, quantity };
+  console.log(products.values());
+  return { id: dbProduct.id, barCode, name, quantity };
+}
+
+async function updateProduct(updatedProduct: Product): Promise<Product> {
+  const dbProduct: ProductModel | undefined = products.get(updatedProduct.id);
+  const productWithSameBarCode = await getProductByBarCode(
+    updatedProduct.barCode
+  );
+
+  if (
+    productWithSameBarCode &&
+    productWithSameBarCode.id !== updatedProduct.id
+  ) {
+    throw new RepositoryError(ServiceErrorStatus.EXISTING_UPDATED_BARCODE);
+  }
+
+  if (!dbProduct) {
+    throw new RepositoryError(ServiceErrorStatus.PRODUCT_NOT_FOUND);
+  }
+
+  products.set(dbProduct.id, updatedProduct);
+
+  return _simulateDelay(updatedProduct);
 }
 
 async function updateProductQuantity(
@@ -109,6 +138,7 @@ export const ProductRepository = {
   getProductById,
   getProductByBarCode,
   insertProduct,
+  updateProduct,
   updateProductQuantity,
 };
 
@@ -125,5 +155,6 @@ export class RepositoryError extends Error {
 
 export enum ServiceErrorStatus {
   EXISTING_PRODUCT = "EXISTING_PRODUCT",
+  EXISTING_UPDATED_BARCODE = "EXISTING_UPDATED_BARCODE",
   PRODUCT_NOT_FOUND = "PRODUCT_NOT_FOUND",
 }
