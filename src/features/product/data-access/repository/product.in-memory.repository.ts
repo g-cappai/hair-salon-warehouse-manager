@@ -1,4 +1,4 @@
-import { Product } from "../entity/Product.entity";
+import { Product } from "../../entity/Product.entity";
 
 type ProductModel = {
   id: string;
