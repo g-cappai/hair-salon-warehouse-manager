@@ -25,13 +25,11 @@ export default function ProductPage() {
   const [isUpdateMode, setIsUpdateMode] = useState(false);
 
   // TODO: replace with a reducer
-  const [name, setName] = useState("");
   const [barCode, setBarCode] = useState("");
   const [quantity, setQuantity] = useState("");
 
   useEffect(() => {
     if (product && isUpdateMode) {
-      setName(product?.name);
       setBarCode(product?.barCode);
       setQuantity(product?.quantity.toString());
     }
@@ -67,11 +65,6 @@ export default function ProductPage() {
   return (
     <View>
       {isUpdateMode ? (
-        <TextInput value={name} onChangeText={setName} />
-      ) : (
-        <Text>{product.name}</Text>
-      )}
-      {isUpdateMode ? (
         <TextInput value={barCode} onChangeText={setBarCode} />
       ) : (
         <Text>{product.barCode}</Text>
@@ -88,9 +81,11 @@ export default function ProductPage() {
           onPress={() =>
             updateProduct({
               id: product.id,
-              name,
               barCode,
               quantity: +quantity,
+              category: "oxygen",
+              mark: "Alfaparf",
+              volumes: "1000",
             })
           }
         />

@@ -39,12 +39,10 @@ export type ProductData = {
   barCode: string;
 };
 
-async function createProduct(productData: ProductData): Promise<Product> {
-  return ProductRepository.insertProduct({
-    barCode: productData.barCode,
-    name: productData.name,
-    quantity: 1,
-  });
+async function createProduct(
+  newProduct: Omit<Product, "id">
+): Promise<Product> {
+  return ProductRepository.insertProduct(newProduct);
 }
 
 async function updateProduct(updatedProduct: Product): Promise<Product> {

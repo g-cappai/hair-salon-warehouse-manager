@@ -1,11 +1,6 @@
 import { Product } from "../../entity/Product.entity";
 
-type ProductModel = {
-  id: string;
-  barCode: string;
-  name: string;
-  quantity: number;
-};
+type ProductModel = Product;
 
 const products = new Map<string, ProductModel>();
 
@@ -22,12 +17,7 @@ async function getProductById(id: string): Promise<Product | null> {
     return _simulateDelay(null);
   }
 
-  return _simulateDelay({
-    id: id,
-    barCode: dbProduct.barCode,
-    name: dbProduct.name,
-    quantity: dbProduct.quantity,
-  });
+  return _simulateDelay(dbProduct);
 }
 
 async function getProductByBarCode(barCode: string): Promise<Product | null> {
@@ -39,29 +29,21 @@ async function getProductByBarCode(barCode: string): Promise<Product | null> {
     return _simulateDelay(null);
   }
 
-  return _simulateDelay({
-    id: dbProduct.id,
-    barCode: dbProduct.barCode,
-    name: dbProduct.name,
-    quantity: dbProduct.quantity,
-  });
+  return _simulateDelay(dbProduct);
 }
 
 async function getProducts(): Promise<Product[]> {
   return Array.from(products.values());
 }
 
-async function insertProduct({
-  barCode,
-  name,
-  quantity,
-}: Omit<Product, "id">): Promise<Product> {
-  const dbProduct: ProductModel = {
+async function insertProduct(
+  newProduct: Omit<Product, "id">
+): Promise<Product> {
+  const dbProduct = {
     id: (+Math.random().toPrecision(4) * 10000).toString(),
-    barCode,
-    name,
-    quantity,
-  };
+    ...newProduct,
+    quantity: 1,
+  } as Product;
 
   if (products.has(dbProduct.id)) {
     throw new RepositoryError(ServiceErrorStatus.EXISTING_PRODUCT);
@@ -69,7 +51,7 @@ async function insertProduct({
 
   products.set(dbProduct.id, dbProduct);
 
-  return { id: dbProduct.id, barCode, name, quantity };
+  return dbProduct;
 }
 
 async function updateProduct(updatedProduct: Product): Promise<Product> {
@@ -105,20 +87,13 @@ async function updateProductQuantity(
   }
 
   const updatedProduct: ProductModel = {
-    id: dbProduct.id,
-    barCode: dbProduct.barCode,
-    name: dbProduct.name,
+    ...dbProduct,
     quantity: newQuantity,
   };
 
   products.set(dbProduct.id, updatedProduct);
 
-  return _simulateDelay({
-    id: dbProduct.id,
-    barCode: dbProduct.barCode,
-    name: dbProduct.name,
-    quantity: newQuantity,
-  });
+  return _simulateDelay(updatedProduct);
 }
 
 function deleteProduct(id: string): void {

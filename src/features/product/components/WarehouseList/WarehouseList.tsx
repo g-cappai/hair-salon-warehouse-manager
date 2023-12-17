@@ -17,7 +17,7 @@ export function WarehouseList() {
           }}
         >
           <Pressable>
-            <Text>{`Name: ${item.name} Quantity: ${item.quantity}`}</Text>
+            <Text>{`Barcode: ${item.barCode} Quantity: ${item.quantity}`}</Text>
           </Pressable>
         </Link>
       )}
