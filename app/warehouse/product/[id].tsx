@@ -84,7 +84,7 @@ export default function ProductPage() {
               barCode,
               quantity: +quantity,
               category: "oxygen",
-              mark: "Alfaparf",
+              brand: "Alfaparf",
               volumes: "1000",
             })
           }

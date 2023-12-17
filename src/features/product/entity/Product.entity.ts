@@ -3,7 +3,7 @@ type CategoryLabel = "color" | "pigment" | "oxygen" | "bleach" | "glossToner";
 type BaseProductInfo = {
   id: string;
   barCode: string;
-  mark: string;
+  brand: string;
   quantity: number;
 };
 
