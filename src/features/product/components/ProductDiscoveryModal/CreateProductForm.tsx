@@ -13,7 +13,8 @@ export function CreateProductForm({ barCode, onSubmit }: Props) {
   const [productName, setProductName] = useState("");
 
   const handleSubmit = () => {
-    createProduct({ name: productName, barCode });
+    //TODO We need every product property
+    createProduct({ barCode, category: "bleach", brand: "Test", quantity: 1 });
     onSubmit({ name: productName, barCode });
   };
 
