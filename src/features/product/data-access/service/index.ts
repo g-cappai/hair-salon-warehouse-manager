@@ -1,5 +1,5 @@
 import { Product } from "../../entity/Product.entity";
-import { ProductRepository } from "../repository/product.in-memory.repository";
+import { ProductRepository } from "../repository/realm";
 
 /* 
 SERVICE LAYER MAY BE SUPERFLOUS
@@ -37,6 +37,8 @@ async function getProductByBarCode(barCode: string): Promise<Product | null> {
 export type ProductData = {
   name: string;
   barCode: string;
+  //TODO:
+  category: string;
 };
 
 async function createProduct(
