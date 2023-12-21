@@ -1,11 +1,14 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ProductData, ProductService } from "../service";
+import { ProductService } from "../service";
+import { Product } from "@features/product/entity/Product.entity";
+
+type UseCreateProductParams = Omit<Product, "id">;
 
 export function useCreateProduct() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (productData: ProductData) =>
+    mutationFn: (productData: UseCreateProductParams) =>
       ProductService.createProduct(productData),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["products"] }),
   });
