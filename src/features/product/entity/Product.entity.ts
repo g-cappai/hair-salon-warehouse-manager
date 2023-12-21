@@ -1,4 +1,9 @@
-type CategoryLabel = "color" | "pigment" | "oxygen" | "bleach" | "glossToner";
+export type CategoryLabel =
+  | "color"
+  | "pigment"
+  | "oxygen"
+  | "bleach"
+  | "glossToner";
 
 type BaseProductInfo = {
   id: string;
@@ -48,11 +53,11 @@ type GlossTonerCategory = Category<
   }
 >;
 
-export type Product = BaseProductInfo &
-  (
-    | ColorCategory
-    | PigmentCategory
-    | OxygenCategory
-    | BleachCategory
-    | GlossTonerCategory
-  );
+export type AvailableCategories =
+  | ColorCategory
+  | PigmentCategory
+  | OxygenCategory
+  | BleachCategory
+  | GlossTonerCategory;
+
+export type Product = BaseProductInfo & AvailableCategories;
