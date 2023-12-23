@@ -1,7 +1,7 @@
 import { Pressable, Text } from "react-native";
 import { List } from "src/features/ui/components";
 import { Link } from "@features/navigation/components";
-import { useGetProducts } from "@features/product/data-access/hooks/useGetProducts";
+import { useGetProducts } from "@features/core/data-access/hooks";
 
 export function WarehouseList() {
   const { data: products } = useGetProducts();
