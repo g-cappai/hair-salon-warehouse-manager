@@ -2,7 +2,7 @@ import {
   useDeleteProductById,
   useGetProductById,
   useUpdateProduct,
-} from "@features/core/data-access/hooks";
+} from "@features/core/data-access/hooks/product";
 import { Link } from "@features/navigation/components";
 import { useRouter } from "@features/navigation/hooks";
 import { useLocalSearchParams } from "expo-router";
