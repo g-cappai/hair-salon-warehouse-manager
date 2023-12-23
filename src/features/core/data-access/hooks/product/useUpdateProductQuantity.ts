@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ProductService } from "../service";
+import { ProductService } from "../../service";
 
 type UpdateProductQuantityParams = {
   productId: string;

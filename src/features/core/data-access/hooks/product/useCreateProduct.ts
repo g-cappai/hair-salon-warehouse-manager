@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ProductService } from "../service";
-import { Product } from "@features/product/entity/Product.entity";
+import { ProductService } from "../../service";
+import { Product } from "@features/core/entity/Product.entity";
 
 type UseCreateProductParams = Omit<Product, "id">;
 

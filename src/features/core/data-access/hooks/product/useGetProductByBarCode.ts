@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { ProductService } from "../service";
+import { ProductService } from "../../service";
 
 export function useGetProductByBarCode(barCode: string) {
   return useQuery({
