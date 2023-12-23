@@ -1,0 +1,60 @@
+- Add real local storage
+- Refactor product page
+- Add form library
+
+
+# PRODUCT
+- ID
+- Barcode
+- Mark
+- Category
+
+# SUBCATEGORY_INFO
+
+## COLOR
+- Name
+- ColorN
+
+## PIGMENT
+- Color
+
+## OXIGEN
+- Volumes {5|10|20|30|40}
+
+## BLEACH
+- Tones
+
+## GLOSS_TONER
+- Color
+- Code
+
+
+type Category = {
+  color: {
+    name: string;
+    number: number;
+  };
+  pigment: {
+    color: string;
+  };
+  oxygen: {
+    volumes: number;
+  };
+  bleach: {
+    tones: string;
+  };
+  glossToner: {
+    color: string;
+    code: string;
+  };
+};
+
+type BaseProductInfo = {
+  id: string;
+  barCode: string;
+  mark: string;
+  category: keyof Category;
+  quantity: number;
+};
+
+export type Product<T extends keyof Category> = BaseProductInfo & Category[T];

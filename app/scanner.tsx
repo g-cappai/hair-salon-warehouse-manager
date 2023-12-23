@@ -2,7 +2,7 @@ import { StyleSheet, View } from "react-native";
 import { useState } from "react";
 import { useFocusEffect } from "expo-router";
 import { Scanner } from "@features/scanner/components";
-import { ProductDiscoveryModal } from "@features/product/components";
+import { ProductDiscoveryModal } from "@features/core/components";
 
 export default function ScannerPage() {
   const [isScannerActive, setIsScannerActive] = useState(true);
