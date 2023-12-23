@@ -1,12 +1,14 @@
+import {
+  useDeleteProductById,
+  useGetProductById,
+  useUpdateProduct,
+} from "@features/core/data-access/hooks";
 import { Link } from "@features/navigation/components";
 import { useRouter } from "@features/navigation/hooks";
-import { useDeleteProductById } from "@features/product/data-access/hooks/useDeleteProductById";
-import { useUpdateProduct } from "@features/product/data-access/hooks/useUpdateProduct";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { Button, Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
-import { useGetProductById } from "src/features/product/data-access/hooks/useGetProductById";
 
 export default function ProductPage() {
   const router = useRouter();

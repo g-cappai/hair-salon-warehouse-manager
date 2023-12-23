@@ -1,4 +1,4 @@
-import { WarehouseList } from "@features/product/components";
+import { WarehouseList } from "@features/core/components";
 
 export default function WarehousePage() {
   return <WarehouseList />;
