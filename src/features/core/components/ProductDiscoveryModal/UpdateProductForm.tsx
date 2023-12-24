@@ -1,6 +1,5 @@
+import { useUpdateProductQuantity } from "@features/core/data-access/hooks/product";
 import { Button, View } from "react-native";
-import { useUpdateProductQuantity } from "../../data-access/hooks/useUpdateProductQuantity";
-
 type Props = {
   productId: string;
   currentQuantity: number;
