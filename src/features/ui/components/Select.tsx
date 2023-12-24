@@ -5,21 +5,26 @@ type Props = {
   selectedValue: string | number;
   data: { value: string | number; label: string }[];
   placeholder?: string;
-  onChange: (value: string) => void;
+  onChange: (
+    value: (string | number) | (string | number)[] | undefined
+  ) => void;
 };
 
 export function Select({ data, selectedValue, placeholder, onChange }: Props) {
+  console.log(selectedValue, data);
   return (
     <Picker
       floatingPlaceholder
       value={selectedValue}
+      items={data}
       placeholder={placeholder}
       onChange={onChange}
       trailingAccessory={<Text>+</Text>}
     >
-      {data.map((item) => (
-        <Picker.Item key={item.value} value={item.value} label={item.label} />
-      ))}
+      {data.length > 0 &&
+        data.map((item) => (
+          <Picker.Item key={item.value} value={item.value} label={item.label} />
+        ))}
     </Picker>
   );
 }
