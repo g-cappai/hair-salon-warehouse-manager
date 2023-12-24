@@ -1,5 +1,5 @@
 import { Category, CategoryDetail } from "../../entity/Product.entity";
-import { CategoryRepository } from "../repository/category,in-memory.repository";
+import { CategoryRepository } from "../repository/category.in-memory.repository";
 
 export const CategoryService = {
   getCategories,
