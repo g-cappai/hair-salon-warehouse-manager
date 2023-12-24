@@ -11,7 +11,6 @@ type Props = {
 };
 
 export function Select({ data, selectedValue, placeholder, onChange }: Props) {
-  console.log(selectedValue, data);
   return (
     <Picker
       floatingPlaceholder

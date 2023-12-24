@@ -75,7 +75,6 @@ async function insertProduct(
   newProduct: Omit<Product, "id">
 ): Promise<Product> {
   const realm = await getRealm();
-  console.log("There is a Realm", !!realm);
   const insertedProduct = realm.write(() => {
     const { barCode, brand, category, quantity, ...categoryInfo } = newProduct;
     const productModel = {
