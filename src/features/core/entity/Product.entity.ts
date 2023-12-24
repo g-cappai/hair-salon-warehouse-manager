@@ -1,63 +1,36 @@
-export type CategoryLabel =
-  | "color"
-  | "pigment"
-  | "oxygen"
-  | "bleach"
-  | "glossToner";
-
-type BaseProductInfo = {
+export type Product = {
   id: string;
   barCode: string;
-  brand: string;
   quantity: number;
+  brand: Brand;
+  category: Category;
+  details: ProductDetail[];
 };
 
-type Category<T extends CategoryLabel, U> = {
-  category: T;
-} & U;
+export type ProductDetail = {
+  categoryDetail: CategoryDetail;
+  value: string;
+};
 
-type ColorCategory = Category<
-  "color",
-  {
-    name: string;
-    number: string;
-  }
->;
+// ---------------------------------------------------------------------------- //
 
-type PigmentCategory = Category<
-  "pigment",
-  {
-    color: string;
-  }
->;
+export type Brand = {
+  id: string;
+  name: string;
+};
 
-type OxygenCategory = Category<
-  "oxygen",
-  {
-    volumes: string;
-  }
->;
+// ---------------------------------------------------------------------------- //
 
-type BleachCategory = Category<
-  "bleach",
-  {
-    tones: string;
-  }
->;
+export type Category = {
+  id: string;
+  name: string;
+};
 
-type GlossTonerCategory = Category<
-  "glossToner",
-  {
-    color: string;
-    code: string;
-  }
->;
+export type CategoryDetailType = "string";
 
-export type AvailableCategories =
-  | ColorCategory
-  | PigmentCategory
-  | OxygenCategory
-  | BleachCategory
-  | GlossTonerCategory;
-
-export type Product = BaseProductInfo & AvailableCategories;
+export type CategoryDetail = {
+  id: string;
+  categoryId: string;
+  label: string;
+  type: "string";
+};
