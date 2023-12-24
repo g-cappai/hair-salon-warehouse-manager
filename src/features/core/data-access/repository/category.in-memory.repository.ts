@@ -4,17 +4,43 @@ import {
   CategoryDetailType,
 } from "../../entity/Product.entity";
 
-type CategoryModel = { _id: string; name: string };
+type CategoryModel = { id: string; name: string };
 type CategoryDetailModel = {
-  _id: string;
+  id: string;
   categoryId: string;
   type: string;
   label: string;
 };
 
-const categories = new Map<string, CategoryModel>();
+const categories = new Map<string, CategoryModel>(
+  [
+    { id: "0", name: "Color" },
+    { id: "1", name: "Pigment" },
+  ].map((v) => [v.id, v])
+);
 
-const categoryDetails = new Map<string, CategoryDetailModel>();
+const categoryDetails = new Map<string, CategoryDetailModel>(
+  [
+    {
+      id: "0",
+      categoryId: "0",
+      type: "string",
+      label: "name",
+    },
+    {
+      id: "1",
+      categoryId: "0",
+      type: "string",
+      label: "number",
+    },
+    {
+      id: "2",
+      categoryId: "1",
+      type: "string",
+      label: "color",
+    },
+  ].map((v) => [v.id, v])
+);
 
 // -----------------------------------------------------------------------------
 
@@ -23,7 +49,6 @@ async function getCategories(): Promise<Category[]> {
 
   return everyCategory.map((cat) => ({
     ...cat,
-    id: cat._id,
   }));
 }
 
@@ -37,7 +62,6 @@ async function getCategoryDetails(
 
   return filteredCategoryDetails.map((cd) => ({
     ...cd,
-    id: cd._id,
     type: cd.type as CategoryDetailType,
   }));
 }
