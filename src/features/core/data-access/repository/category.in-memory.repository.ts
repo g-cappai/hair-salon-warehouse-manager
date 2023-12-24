@@ -25,19 +25,19 @@ const categoryDetails = new Map<string, CategoryDetailModel>(
       id: "0",
       categoryId: "0",
       type: "string",
-      label: "name",
+      label: "Name",
     },
     {
       id: "1",
       categoryId: "0",
       type: "string",
-      label: "number",
+      label: "Number",
     },
     {
       id: "2",
       categoryId: "1",
       type: "string",
-      label: "color",
+      label: "Color",
     },
   ].map((v) => [v.id, v])
 );
