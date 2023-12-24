@@ -1,6 +1,18 @@
 import { Product } from "../../entity/Product.entity";
 
-type ProductModel = Product;
+type ProductModel = {
+  id: string;
+  barCode: string;
+  quantity: number;
+  brandId: string;
+  categoryId: string;
+  details: ProductDetailsModel[];
+};
+
+type ProductDetailsModel = {
+  categoryDetailId: string;
+  value: string;
+};
 
 const products = new Map<string, ProductModel>();
 
