@@ -3,33 +3,46 @@ import { useState } from "react";
 import { Input } from "@features/ui/components";
 import { Select } from "@features/ui/components";
 import { useCreateProduct } from "@features/core/data-access/hooks/product";
-import { Brand } from "@features/core/entity/Product.entity";
-import { useGetCategories } from "@features/core/data-access/hooks/category/useGetCategories";
-import { useGetCategoryDetails } from "@features/core/data-access/hooks/category";
+import {
+  useCategories,
+  useCategoryDetails,
+} from "@features/core/data-access/hooks/category";
+import { useBrands } from "@features/core/data-access/hooks/brand";
 
 type Props = {
   barCode: string;
   onSubmit: (submittedValues: { name: string; barCode: string }) => void;
 };
 
-const BRANDS: Brand[] = [
-  { id: "0", name: "Alfaparf" },
-  { id: "1", name: "Evolution" },
-];
+type FormData = {
+  barCode: string;
+  quantity: number;
+  brandId: string;
+  categoryId: string;
+  details: { categoryDetailId: string; value: string }[];
+};
 
 export function CreateProductForm({ barCode, onSubmit }: Props) {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     barCode,
     quantity: 1,
     brandId: "",
     categoryId: "",
     details: [] as { categoryDetailId: string; value: string }[],
   });
+
+  const updateFormData = <T extends keyof FormData>(
+    key: T,
+    value: FormData[T]
+  ) => {
+    setFormData((c) => ({ ...c, [key]: value }));
+  };
+
   const { mutate: createProduct } = useCreateProduct();
-  const { data: categories } = useGetCategories();
-  const { data: categoryDetails } = useGetCategoryDetails({
-    categoryId: formData.categoryId,
-  });
+
+  const { data: categories } = useCategories();
+  const { data: brands } = useBrands();
+  const { data: categoryDetails } = useCategoryDetails(formData.categoryId);
 
   const handleSubmit = () => {
     createProduct({
@@ -47,55 +60,52 @@ export function CreateProductForm({ barCode, onSubmit }: Props) {
       <Input
         placeholder="Barcode"
         value={formData.barCode}
-        onChange={(value) => setFormData((c) => ({ ...c, barCode: value }))}
+        onChange={(value) => updateFormData("barCode", value)}
       />
       <Input
         placeholder="Quantity"
         type="NUMERIC"
         value={formData.quantity.toString()}
-        onChange={(value) => setFormData((c) => ({ ...c, quantity: +value }))}
+        onChange={(value) => updateFormData("quantity", +value)}
       />
       <Select
         placeholder="Brand"
-        data={BRANDS.map((b) => ({ label: b.name, value: b.id }))}
+        data={brands?.map((b) => ({ label: b.name, value: b.id })) || []}
         selectedValue={formData.brandId}
-        onChange={(value) =>
-          setFormData((c) => ({ ...c, brandId: value as string }))
-        }
+        onChange={(value) => updateFormData("brandId", value as string)}
       />
       <Select
         placeholder="Category"
         data={categories?.map((c) => ({ label: c.name, value: c.id })) || []}
         selectedValue={formData.categoryId}
-        onChange={(value) => {
-          setFormData((c) => ({ ...c, categoryId: value as string }));
-        }}
+        onChange={(value) => updateFormData("categoryId", value as string)}
       />
 
       {categoryDetails?.map((categoryDetail) => {
         if (categoryDetail.type === "string") {
+          const getCategoryDetailValue = () =>
+            formData.details.find(
+              (formDataDetail) =>
+                formDataDetail.categoryDetailId === categoryDetail.id
+            )?.value;
+
+          const updateFormDataDetail = (value: string) => {
+            return [
+              ...formData.details.filter(
+                (currentFormDataDetail) =>
+                  currentFormDataDetail.categoryDetailId !== categoryDetail.id
+              ),
+              { categoryDetailId: categoryDetail.id, value },
+            ];
+          };
+
           return (
             <Input
               key={categoryDetail.id}
               placeholder={categoryDetail.label}
-              value={
-                formData.details.find(
-                  (formDataDetail) =>
-                    formDataDetail.categoryDetailId === categoryDetail.id
-                )?.value || ""
-              }
+              value={getCategoryDetailValue() || ""}
               onChange={(value) =>
-                setFormData((currentFormData) => ({
-                  ...currentFormData,
-                  details: [
-                    ...currentFormData.details.filter(
-                      (currentFormDataDetail) =>
-                        currentFormDataDetail.categoryDetailId !==
-                        categoryDetail.id
-                    ),
-                    { categoryDetailId: categoryDetail.id, value },
-                  ],
-                }))
+                updateFormData("details", updateFormDataDetail(value))
               }
             />
           );
