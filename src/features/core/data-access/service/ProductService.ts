@@ -1,17 +1,6 @@
 import { Product } from "../../entity/Product.entity";
 import { ProductRepository } from "../repository/product.in-memory.repository";
 
-/* 
-SERVICE LAYER MAY BE SUPERFLOUS
-At the moment this is just a proxy between hooks and repository
-doesn't really add nothing.
-I should evaluate it when i'll had added all the saving logics
-
-HERE may happen the double writing (to the db and the conversion to a sheet).
-
-IF in the hand this will still be just a proxy or some kind of DI container, can be removed
-*/
-
 export const ProductService = {
   getProducts,
   getProductById,
@@ -34,28 +23,29 @@ async function getProductByBarCode(barCode: string): Promise<Product | null> {
   return ProductRepository.getProductByBarCode(barCode);
 }
 
-export type ProductData = {
-  name: string;
-  barCode: string;
-  //TODO:
-  category: string;
-};
+type InsertProductParams = Omit<Product, "id">;
 
 async function createProduct(
-  newProduct: Omit<Product, "id">
+  newProduct: InsertProductParams
 ): Promise<Product> {
   return ProductRepository.insertProduct(newProduct);
 }
 
-async function updateProduct(updatedProduct: Product): Promise<Product> {
-  return ProductRepository.updateProduct(updatedProduct);
+type UpdateProductParams = Omit<Partial<Product>, "barCode"> & {
+  id: Product["id"];
+};
+
+async function updateProduct(
+  updatedData: UpdateProductParams
+): Promise<Product> {
+  return ProductRepository.updateProduct(updatedData);
 }
 
 async function updateProductQuantity(
-  productId: string,
+  id: string,
   newQuantity: number
 ): Promise<Product> {
-  return ProductRepository.updateProductQuantity(productId, newQuantity);
+  return ProductRepository.updateProductQuantity(id, newQuantity);
 }
 
 async function deleteProductById(id: string): Promise<void> {

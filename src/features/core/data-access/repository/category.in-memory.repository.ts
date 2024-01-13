@@ -4,7 +4,8 @@ import {
   CategoryDetailType,
 } from "../../entity/Product.entity";
 
-type CategoryModel = { id: string; name: string };
+export type CategoryModel = { id: string; name: string };
+
 type CategoryDetailModel = {
   id: string;
   categoryId: string;
@@ -66,7 +67,37 @@ async function getCategoryDetails(
   }));
 }
 
-export const CategoryRepository = { getCategories, getCategoryDetails };
+async function getCategoryById(
+  categoryId: string
+): Promise<Category | undefined> {
+  const category = categories.get(categoryId);
+
+  if (category) {
+    return { ...category };
+  }
+
+  return undefined;
+}
+
+async function getCategoriesByIds(categoryIds: string[]): Promise<Category[]> {
+  const categoriesByIds: Category[] = [];
+
+  categoryIds.forEach((categoryId) => {
+    const category = categories.get(categoryId);
+    if (category) {
+      categoriesByIds.push({ ...category });
+    }
+  });
+
+  return categoriesByIds;
+}
+
+export const CategoryRepository = {
+  getCategories,
+  getCategoryDetails,
+  getCategoryById,
+  getCategoriesByIds,
+};
 
 // -----------------------------------------------------
 
