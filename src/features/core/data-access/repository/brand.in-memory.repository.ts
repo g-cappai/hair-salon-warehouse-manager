@@ -1,4 +1,4 @@
-import { Brand } from "@features/core/entity/Product.entity";
+import { Brand } from "@features/core/entity/Brand.entity";
 
 export type BrandModel = {
   id: string;

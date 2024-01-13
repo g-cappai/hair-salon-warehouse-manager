@@ -1,9 +1,4 @@
-import { Product, ProductDetail } from "../../entity/Product.entity";
-import { BrandModel, BrandRepository } from "./brand.in-memory.repository";
-import {
-  CategoryModel,
-  CategoryRepository,
-} from "./category.in-memory.repository";
+import { Product } from "../../entity/Product.entity";
 
 type ProductModel = {
   id: string;
@@ -34,14 +29,7 @@ async function getProductById(id: string): Promise<Product | null> {
     return _simulateDelay(null);
   }
 
-  const dbCategory: CategoryModel | undefined =
-    await CategoryRepository.getCategoryById(dbProduct.categoryId);
-
-  const dbBrand: BrandModel | undefined = await BrandRepository.getBrandById(
-    dbProduct.brandId
-  );
-
-  return mapProductModelToProduct(dbProduct, dbCategory!, dbBrand!);
+  return dbProduct;
 }
 
 async function getProductByBarCode(barCode: string): Promise<Product | null> {
@@ -53,41 +41,12 @@ async function getProductByBarCode(barCode: string): Promise<Product | null> {
     return _simulateDelay(null);
   }
 
-  const dbCategory: CategoryModel | undefined =
-    await CategoryRepository.getCategoryById(dbProduct.categoryId);
-
-  const dbBrand: BrandModel | undefined = await BrandRepository.getBrandById(
-    dbProduct.brandId
-  );
-
-  return mapProductModelToProduct(dbProduct, dbCategory!, dbBrand!);
+  return dbProduct;
 }
 
 async function getProducts(): Promise<Product[]> {
   const dbProducts = Array.from(products.values());
-
-  const brandIds = [...new Set(dbProducts.map((product) => product.brandId))];
-  const categoryIds = [
-    ...new Set(dbProducts.map((product) => product.categoryId)),
-  ];
-
-  const [brands, categories] = await Promise.all([
-    BrandRepository.getBrandsByIds(brandIds),
-    CategoryRepository.getCategoriesByIds(categoryIds),
-  ]);
-
-  const brandMap = new Map(brands.map((brand) => [brand.id, brand]));
-  const categoryMap = new Map(
-    categories.map((category) => [category.id, category])
-  );
-
-  return dbProducts.map((product) =>
-    mapProductModelToProduct(
-      product,
-      categoryMap.get(product.categoryId)!,
-      brandMap.get(product.brandId)!
-    )
-  );
+  return dbProducts;
 }
 
 type InsertProductParams = Omit<Product, "id">;
@@ -95,10 +54,10 @@ type InsertProductParams = Omit<Product, "id">;
 async function insertProduct(
   newProduct: InsertProductParams
 ): Promise<Product> {
-  const dbProduct = mapProductToProductModel({
+  const dbProduct = {
     id: (+Math.random().toPrecision(4) * 10000).toString(),
     ...newProduct,
-  });
+  };
 
   if (products.has(dbProduct.id)) {
     throw new RepositoryError(ServiceErrorStatus.EXISTING_PRODUCT);
@@ -106,14 +65,7 @@ async function insertProduct(
 
   products.set(dbProduct.id, dbProduct);
 
-  const dbCategory: CategoryModel | undefined =
-    await CategoryRepository.getCategoryById(dbProduct.categoryId);
-
-  const dbBrand: BrandModel | undefined = await BrandRepository.getBrandById(
-    dbProduct.brandId
-  );
-
-  return mapProductModelToProduct(dbProduct, dbCategory!, dbBrand!);
+  return dbProduct;
 }
 
 type UpdateProductParams = Partial<Product> & { id: Product["id"] };
@@ -136,16 +88,9 @@ async function updateProduct(
     ...rest,
   } as ProductModel;
 
-  const dbCategory: CategoryModel | undefined =
-    await CategoryRepository.getCategoryById(dbProduct.categoryId);
-
-  const dbBrand: BrandModel | undefined = await BrandRepository.getBrandById(
-    dbProduct.brandId
-  );
-
   products.set(dbProduct.id, updatedProduct);
 
-  return mapProductModelToProduct(updatedProduct, dbCategory!, dbBrand!);
+  return updatedProduct;
 }
 
 async function updateProductQuantity(
@@ -165,14 +110,7 @@ async function updateProductQuantity(
 
   products.set(dbProduct.id, updatedProduct);
 
-  const dbCategory: CategoryModel | undefined =
-    await CategoryRepository.getCategoryById(dbProduct.categoryId);
-
-  const dbBrand: BrandModel | undefined = await BrandRepository.getBrandById(
-    dbProduct.brandId
-  );
-
-  return mapProductModelToProduct(updatedProduct, dbCategory!, dbBrand!);
+  return updatedProduct;
 }
 
 function deleteProduct(id: string): void {
@@ -194,51 +132,6 @@ export const ProductRepository = {
   updateProductQuantity,
   deleteProduct,
 };
-
-// -----------------------------------------------------
-
-function mapProductToProductModel(product: Product): ProductModel {
-  const { id, barCode, brand, category, details, quantity } = product;
-
-  return {
-    id,
-    barCode,
-    quantity,
-    brandId: brand.id,
-    categoryId: category.id,
-    details: details?.map(
-      (detail) =>
-        ({
-          categoryDetailId: detail.categoryDetail.id,
-          value: detail.value,
-        } as ProductDetailsModel)
-    ),
-  };
-}
-
-function mapProductModelToProduct(
-  productModel: ProductModel,
-  categoryModel: CategoryModel,
-  brandModel: BrandModel
-): Product {
-  const { id, barCode, quantity, details } = productModel;
-  // Get brand from BrandRepository
-  // Get category from CategoryRepository
-  return {
-    id,
-    barCode,
-    quantity,
-    brand: categoryModel,
-    category: brandModel,
-    details: details?.map(
-      (detail) =>
-        ({
-          categoryDetail: { id: detail.categoryDetailId },
-          value: detail.value,
-        } as ProductDetail)
-    ),
-  };
-}
 
 // -----------------------------------------------------
 

@@ -1,8 +1,8 @@
 import {
   Category,
   CategoryDetail,
-  CategoryDetailType,
-} from "../../entity/Product.entity";
+  CategoryDetailInputType,
+} from "@features/core/entity/Category.entity";
 
 export type CategoryModel = { id: string; name: string };
 
@@ -48,9 +48,11 @@ const categoryDetails = new Map<string, CategoryDetailModel>(
 async function getCategories(): Promise<Category[]> {
   const everyCategory = Array.from(categories.values());
 
-  return everyCategory.map((cat) => ({
-    ...cat,
-  }));
+  return everyCategory.map((cat) => {
+    return {
+      ...cat,
+    };
+  });
 }
 
 async function getCategoryDetails(
@@ -63,20 +65,18 @@ async function getCategoryDetails(
 
   return filteredCategoryDetails.map((cd) => ({
     ...cd,
-    type: cd.type as CategoryDetailType,
+    type: cd.type as CategoryDetailInputType,
   }));
 }
 
-async function getCategoryById(
-  categoryId: string
-): Promise<Category | undefined> {
+async function getCategoryById(categoryId: string): Promise<Category | null> {
   const category = categories.get(categoryId);
 
   if (category) {
     return { ...category };
   }
 
-  return undefined;
+  return null;
 }
 
 async function getCategoriesByIds(categoryIds: string[]): Promise<Category[]> {
@@ -85,7 +85,9 @@ async function getCategoriesByIds(categoryIds: string[]): Promise<Category[]> {
   categoryIds.forEach((categoryId) => {
     const category = categories.get(categoryId);
     if (category) {
-      categoriesByIds.push({ ...category });
+      categoriesByIds.push({
+        ...category,
+      });
     }
   });
 
