@@ -1,2 +1,2 @@
-export { useGetCategoryDetails } from "./useGetCategoryDetails";
-export { useGetCategories } from "./useGetCategories";
+export { useCategoryDetails } from "./useCategoryDetails";
+export { useCategories } from "./useCategories";

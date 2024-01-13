@@ -1,12 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { CategoryService } from "../../service";
+import { CategoryDetail } from "@features/core/entity/Category.entity";
 
-type UseGetCategoryDetailsParams = { categoryId: string };
-
-export function useGetCategoryDetails({
-  categoryId,
-}: UseGetCategoryDetailsParams) {
-  return useQuery({
+export function useCategoryDetails(categoryId: string) {
+  return useQuery<CategoryDetail[]>({
     queryKey: ["category", categoryId, "details"],
     queryFn: () => CategoryService.getCategoryDetails(categoryId),
     enabled: !!categoryId,
