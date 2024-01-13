@@ -1,23 +1,32 @@
 import { Text } from "react-native";
 import { Picker } from "react-native-ui-lib";
 
-type Props = {
-  selectedValue: string | number;
-  data: { value: string | number; label: string }[];
+type Props<T> = {
+  selectedValue: T;
+  data: { value: T; label: string }[];
   placeholder?: string;
-  onChange: (
-    value: (string | number) | (string | number)[] | undefined
-  ) => void;
+  onChange: (value: T | T[] | undefined) => void;
 };
 
-export function Select({ data, selectedValue, placeholder, onChange }: Props) {
+export function Select<T extends string | number>({
+  data,
+  selectedValue,
+  placeholder,
+  onChange,
+}: Props<T>) {
+  const handleChange = (
+    value: (string | number) | (string | number)[] | undefined
+  ) => {
+    onChange(value as T | T[] | undefined);
+  };
+
   return (
     <Picker
       floatingPlaceholder
       value={selectedValue}
       items={data}
       placeholder={placeholder}
-      onChange={onChange}
+      onChange={handleChange}
       trailingAccessory={<Text>+</Text>}
     >
       {data.length > 0 &&
