@@ -2,35 +2,12 @@ export type Product = {
   id: string;
   barCode: string;
   quantity: number;
-  brand: Brand;
-  category: Category;
+  brandId: string;
+  categoryId: string;
   details: ProductDetail[];
 };
 
 export type ProductDetail = {
-  categoryDetail: CategoryDetail;
+  categoryDetailId: string;
   value: string;
-};
-
-// ---------------------------------------------------------------------------- //
-
-export type Brand = {
-  id: string;
-  name: string;
-};
-
-// ---------------------------------------------------------------------------- //
-
-export type Category = {
-  id: string;
-  name: string;
-};
-
-export type CategoryDetailType = "string";
-
-export type CategoryDetail = {
-  id: string;
-  categoryId: string;
-  label: string;
-  type: "string";
 };
