@@ -18,15 +18,11 @@ const products = new Map<string, ProductModel>();
 
 // -----------------------------------------------------------------------------
 
-async function _simulateDelay<T>(val: T): Promise<T> {
-  return new Promise((resolve) => setTimeout(() => resolve(val), 2000));
-}
-
 async function getProductById(id: string): Promise<Product | null> {
   const dbProduct: ProductModel | undefined = products.get(id);
 
   if (!dbProduct) {
-    return _simulateDelay(null);
+    return null;
   }
 
   return dbProduct;
@@ -38,7 +34,7 @@ async function getProductByBarCode(barCode: string): Promise<Product | null> {
   ).find((p) => p.barCode === barCode);
 
   if (!dbProduct) {
-    return _simulateDelay(null);
+    return null;
   }
 
   return dbProduct;
