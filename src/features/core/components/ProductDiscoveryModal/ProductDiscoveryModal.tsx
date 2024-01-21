@@ -2,6 +2,7 @@ import { CreateProductForm } from "./CreateProductForm";
 import { UpdateProductForm } from "./UpdateProductForm";
 import { Loading } from "./Loading";
 import { useGetProductByBarCode } from "@features/core/data-access/hooks/product";
+import { Modal } from "@features/ui/components";
 
 type Props = { isOpen: boolean; barCode: string; onClose: () => void };
 
@@ -10,25 +11,25 @@ export function ProductDiscoveryModal({ isOpen, barCode, onClose }: Props) {
 
   // TODO: In case of error retry scanning
 
-  // TODO: In which case can be opened but we don't have a code?
-
-  if (!isOpen || !barCode) {
-    return;
-  }
+  let modalContent: React.ReactNode;
 
   if (isFetching) {
-    return <Loading />;
-  }
-
-  if (!product) {
-    return <CreateProductForm barCode={barCode} onSubmit={onClose} />;
+    modalContent = <Loading />;
+  } else if (!product) {
+    modalContent = <CreateProductForm barCode={barCode} onSubmit={onClose} />;
+  } else {
+    modalContent = (
+      <UpdateProductForm
+        productId={product.id}
+        currentQuantity={product.quantity}
+        onCancel={onClose}
+      />
+    );
   }
 
   return (
-    <UpdateProductForm
-      productId={product.id}
-      currentQuantity={product.quantity}
-      onCancel={onClose}
-    />
+    <Modal isOpen={isOpen} onClose={onClose}>
+      {modalContent}
+    </Modal>
   );
 }
