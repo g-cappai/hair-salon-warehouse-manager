@@ -1,6 +1,6 @@
-import { Button, View } from "react-native";
+import { Button, StyleSheet, View } from "react-native";
 import { useState } from "react";
-import { Input } from "@features/ui/components";
+import { Input, Text } from "@features/ui/components";
 import { Select } from "@features/ui/components";
 import { useCreateProduct } from "@features/core/data-access/hooks/product";
 import {
@@ -57,6 +57,10 @@ export function CreateProductForm({ barCode, onSubmit }: Props) {
 
   return (
     <View>
+      <View style={styles.header}>
+        <Text variant="title">Prodotto non trovato</Text>
+        <Text variant="body">Inserisci i dati del prodotto</Text>
+      </View>
       <Input
         placeholder="Barcode"
         value={formData.barCode}
@@ -111,7 +115,18 @@ export function CreateProductForm({ barCode, onSubmit }: Props) {
           );
         }
       })}
-      <Button title="CREATE" onPress={handleSubmit} />
+      <View style={styles.footer}>
+        <Button title="CREATE" onPress={handleSubmit} />
+      </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  footer: {
+    paddingTop: 10,
+  },
+  header: {
+    paddingBottom: 10,
+  },
+});
