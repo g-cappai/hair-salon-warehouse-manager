@@ -12,8 +12,8 @@ const brands = new Map<string, BrandModel>(
   ].map((v) => [v.id, v])
 );
 
-export async function getBrandById(id: string): Promise<Brand | undefined> {
-  return brands.get(id);
+export async function getBrandById(id: string): Promise<Brand | null> {
+  return brands.get(id) ?? null;
 }
 
 export async function getBrands(): Promise<Brand[]> {
