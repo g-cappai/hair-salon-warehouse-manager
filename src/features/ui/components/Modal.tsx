@@ -3,7 +3,6 @@ import { StyleSheet } from "react-native";
 import { Dialog, View } from "react-native-ui-lib";
 
 type Props = {
-  title: string;
   isOpen: boolean;
   onClose: () => void;
 } & PropsWithChildren;
