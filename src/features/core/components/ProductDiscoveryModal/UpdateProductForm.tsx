@@ -1,32 +1,49 @@
+import { useBrand } from "@features/core/data-access/hooks/brand/useBrand";
+import { useCategory } from "@features/core/data-access/hooks/category/useCategory";
 import { useUpdateProductQuantity } from "@features/core/data-access/hooks/product";
-import { Link } from "@features/navigation/components";
-import { Text } from "@features/ui/components";
-import { Button, StyleSheet, View } from "react-native";
+import { Product } from "@features/core/entity/Product.entity";
+import { useRouter } from "@features/navigation/hooks";
+import { Button, Text } from "@features/ui/components";
+import { StyleSheet, View } from "react-native";
+
 type Props = {
-  productId: string;
-  currentQuantity: number;
+  product: Product;
   onCancel: () => void;
 };
 
-export function UpdateProductForm({
-  productId,
-  currentQuantity,
-  onCancel,
-}: Props) {
+export function UpdateProductForm({ product, onCancel }: Props) {
   const { mutate: updateProductQuantity } = useUpdateProductQuantity();
+  const { data: category } = useCategory(product.categoryId);
+  const { data: brand } = useBrand(product.brandId);
+
+  const router = useRouter();
+
+  // TODO: Add error: "Product found but category or brand not found"
+  if (!category || !brand) {
+    console.log("ProductDiscoveryModal: category or brand not found");
+    return null;
+  }
 
   const handleIncreaseByOne = () => {
     updateProductQuantity(
-      { productId, newQuantity: currentQuantity + 1 },
+      { productId: product.id, newQuantity: product.quantity + 1 },
       { onSuccess: onCancel }
     );
   };
 
   const handleDecreaseByOne = () => {
     updateProductQuantity(
-      { productId, newQuantity: currentQuantity - 1 },
+      { productId: product.id, newQuantity: product.quantity - 1 },
       { onSuccess: onCancel }
     );
+  };
+
+  const handleGoToProductPage = () => {
+    router.push({
+      pathname: "/warehouse/product/[id]",
+      params: { id: product.id },
+    });
+    onCancel();
   };
 
   const handleCancel = () => {
@@ -38,25 +55,27 @@ export function UpdateProductForm({
       <View style={styles.header}>
         <Text variant="title">Prodotto trovato!</Text>
         <Text variant="body">
-          Il prodotto si trova in magazzino. Cosa vuoi fare?
+          {`${category.name} ${brand.name} con codice: ${product.barCode} si trova in magazzino.`}
         </Text>
       </View>
-      <Button title="+1" onPress={handleIncreaseByOne} />
-      <Button title="-1" onPress={handleDecreaseByOne} />
-      <Link
-        href={{
-          pathname: "/warehouse/product/[id]",
-          params: { id: productId },
-        }}
-      >
-        <Button title="Vai al prodotto" onPress={onCancel} />
-      </Link>
-      <Button title="Cancel" onPress={handleCancel} />
+      <View style={styles.buttons}>
+        <Button title="+1" onPress={handleIncreaseByOne} />
+        <Button title="-1" onPress={handleDecreaseByOne} />
+        <Button
+          title="Vai al prodotto"
+          onPress={handleGoToProductPage}
+          variant="tertiary"
+        />
+        <Button title="Annulla" variant="secondary" onPress={handleCancel} />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  buttons: {
+    gap: 10,
+  },
   header: {
     paddingBottom: 10,
   },
