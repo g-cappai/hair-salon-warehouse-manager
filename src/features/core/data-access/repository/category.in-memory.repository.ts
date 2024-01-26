@@ -11,6 +11,7 @@ type CategoryDetailModel = {
   categoryId: string;
   type: string;
   label: string;
+  required: boolean;
 };
 
 const categories = new Map<string, CategoryModel>(
@@ -27,18 +28,21 @@ const categoryDetails = new Map<string, CategoryDetailModel>(
       categoryId: "0",
       type: "string",
       label: "Name",
+      required: true,
     },
     {
       id: "1",
       categoryId: "0",
       type: "string",
       label: "Number",
+      required: true,
     },
     {
       id: "2",
       categoryId: "1",
       type: "string",
       label: "Color",
+      required: true,
     },
   ].map((v) => [v.id, v])
 );
