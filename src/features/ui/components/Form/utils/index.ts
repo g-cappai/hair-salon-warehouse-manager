@@ -1,0 +1,1 @@
+export { getValidationProps } from "./getValidationProps";

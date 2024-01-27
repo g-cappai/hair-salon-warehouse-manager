@@ -1,17 +1,22 @@
 import { Text } from "react-native";
 import { Picker } from "react-native-ui-lib";
+import { getValidationProps } from "./utils";
 
 type Props<T> = {
-  selectedValue: T;
   data: { value: T; label: string }[];
   placeholder?: string;
+  selectedValue: T;
   onChange: (value: T | T[] | undefined) => void;
+  hasError?: boolean;
+  errorMessage?: string;
 };
 
 export function Select<T extends string | number>({
   data,
-  selectedValue,
   placeholder,
+  selectedValue,
+  hasError,
+  errorMessage,
   onChange,
 }: Props<T>) {
   const handleChange = (
@@ -28,6 +33,7 @@ export function Select<T extends string | number>({
       placeholder={placeholder}
       onChange={handleChange}
       trailingAccessory={<Text>+</Text>}
+      {...getValidationProps(hasError, errorMessage)}
     >
       {data.length > 0 &&
         data.map((item) => (
