@@ -5,14 +5,13 @@ type UseFormParams<T> = {
 };
 
 export function useForm<T extends object>({ initialValues }: UseFormParams<T>) {
-  // Probably needs to be deleted if I will use formik (or maybe not since there are formik hooks too)
-  const { getValues, handleSubmit, setValue } = useReactHookForm({
+  const { watch, handleSubmit, setValue } = useReactHookForm({
     defaultValues: initialValues as DefaultValues<T>,
   });
 
   return {
     handleSubmit,
     setValue,
-    values: getValues(),
+    values: watch(),
   };
 }
