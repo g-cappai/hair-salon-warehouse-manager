@@ -1,6 +1,6 @@
+import { getValidationProps } from "@features/ui/utils/input/getValidationProps";
 import { Text } from "react-native";
 import { Picker } from "react-native-ui-lib";
-import { getValidationProps } from "./utils";
 
 type Props<T> = {
   data: { value: T; label: string }[];

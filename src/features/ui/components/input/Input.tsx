@@ -1,5 +1,5 @@
+import { getValidationProps } from "@features/ui/utils/input/getValidationProps";
 import { TextField } from "react-native-ui-lib";
-import { getValidationProps } from "./utils";
 
 type InputType = "NUMERIC";
 
@@ -31,6 +31,8 @@ export function Input({
     />
   );
 }
+
+// TODO: This is the ui component then we will have the form component with all the stuff like validation controlelr ecc
 
 function mapInputType(type?: InputType) {
   switch (type) {
