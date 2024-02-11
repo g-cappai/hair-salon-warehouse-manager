@@ -7,7 +7,7 @@ type SelectProps<T> = {
   placeholder?: string;
   selectedValue: T;
   onChange: (value: T | T[] | undefined) => void;
-  onPress?: () => void;
+  onBlur?: () => void;
   hasError?: boolean;
   errorMessage?: string;
 };
@@ -19,7 +19,7 @@ export function Select<T extends string | number>({
   hasError,
   errorMessage,
   onChange,
-  onPress,
+  onBlur,
 }: SelectProps<T>) {
   const handleChange = (
     value: (string | number) | (string | number)[] | undefined
@@ -34,8 +34,8 @@ export function Select<T extends string | number>({
       items={data}
       placeholder={placeholder}
       onChange={handleChange}
-      onPress={onPress}
       trailingAccessory={<Text>+</Text>}
+      pickerModalProps={{ onDismiss: onBlur }}
       {...getValidationProps(hasError, errorMessage)}
     >
       {data.length > 0 &&
