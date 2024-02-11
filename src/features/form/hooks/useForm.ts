@@ -16,6 +16,8 @@ type UseFormParams<T extends FieldValues> = {
   initialValues: DefaultValues<T>;
 };
 
+export type UseFormReturn<T extends AnyObject> = ReturnType<typeof useForm<T>>;
+
 export function useForm<T extends AnyObject>({
   initialValues,
   schema,
