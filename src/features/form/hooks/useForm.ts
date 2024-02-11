@@ -29,7 +29,7 @@ export function useForm<T extends AnyObject>({
     /** @ts-expect-error: yupResolver will create a Resover<MakeOptionalKeys<T>> type.*/
     resolver: yupResolver(schema),
     defaultValues: initialValues,
-    mode: "all",
+    mode: "onTouched",
   });
 
   function setValue(name: Path<T>, value: PathValue<T, Path<T>>) {
@@ -40,6 +40,7 @@ export function useForm<T extends AnyObject>({
     return () =>
       setFieldValue(name, watch()[name], {
         shouldTouch: true,
+        shouldValidate: true,
       });
   }
 
