@@ -10,6 +10,7 @@ type InputProps = {
   onChange: (value: string) => void;
   hasError?: boolean;
   errorMessage?: string;
+  onBlur?: () => void;
 };
 
 export function Input({
@@ -19,6 +20,7 @@ export function Input({
   hasError,
   errorMessage,
   onChange,
+  onBlur,
 }: InputProps) {
   return (
     <TextField
@@ -27,6 +29,7 @@ export function Input({
       placeholder={placeholder}
       value={value}
       onChangeText={onChange}
+      onBlur={onBlur}
       {...getValidationProps(hasError, errorMessage)}
     />
   );
