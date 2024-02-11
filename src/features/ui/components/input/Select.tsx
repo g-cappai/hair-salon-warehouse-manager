@@ -2,7 +2,7 @@ import { getValidationProps } from "@features/ui/utils/input/getValidationProps"
 import { Text } from "react-native";
 import { Picker } from "react-native-ui-lib";
 
-type Props<T> = {
+type SelectProps<T> = {
   data: { value: T; label: string }[];
   placeholder?: string;
   selectedValue: T;
@@ -18,7 +18,7 @@ export function Select<T extends string | number>({
   hasError,
   errorMessage,
   onChange,
-}: Props<T>) {
+}: SelectProps<T>) {
   const handleChange = (
     value: (string | number) | (string | number)[] | undefined
   ) => {

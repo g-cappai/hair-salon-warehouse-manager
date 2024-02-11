@@ -3,7 +3,7 @@ import { TextField } from "react-native-ui-lib";
 
 type InputType = "NUMERIC";
 
-type Props = {
+type InputProps = {
   placeholder?: string;
   type?: InputType;
   value: string;
@@ -19,7 +19,7 @@ export function Input({
   hasError,
   errorMessage,
   onChange,
-}: Props) {
+}: InputProps) {
   return (
     <TextField
       keyboardType={mapInputType(type)}
