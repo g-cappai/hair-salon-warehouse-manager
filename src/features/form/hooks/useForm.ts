@@ -49,6 +49,6 @@ export function useForm<T extends AnyObject>({
     setValue,
     setTouched,
     values: watch(),
-    formState,
+    errors: formState.errors,
   };
 }
