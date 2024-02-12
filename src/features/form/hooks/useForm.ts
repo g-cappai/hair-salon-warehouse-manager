@@ -27,11 +27,12 @@ export function useForm<T extends AnyObject>({
     handleSubmit,
     setValue: setFieldValue,
     formState,
+    trigger,
   } = useReactHookForm({
     /** @ts-expect-error: yupResolver will create a Resover<MakeOptionalKeys<T>> type.*/
     resolver: yupResolver(schema),
     defaultValues: initialValues,
-    mode: "onTouched",
+    mode: "all",
   });
 
   function setValue(name: Path<T>, value: PathValue<T, Path<T>>) {
@@ -52,5 +53,7 @@ export function useForm<T extends AnyObject>({
     setTouched,
     values: watch(),
     errors: formState.errors,
+    isValid: formState.isValid,
+    triggerValidation: trigger,
   };
 }
