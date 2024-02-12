@@ -11,4 +11,5 @@ export type CategoryDetail = {
   label: string;
   type: "string"; // may be "string" | "number" | "boolean" in the future
   required: boolean;
+  defaultValue?: string;
 };
