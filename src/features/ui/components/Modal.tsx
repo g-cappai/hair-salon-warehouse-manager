@@ -1,6 +1,7 @@
 import { PropsWithChildren } from "react";
 import { StyleSheet } from "react-native";
-import { Dialog, View } from "react-native-ui-lib";
+import { Modal as RNUIModal } from "react-native-ui-lib";
+import { View } from "./View";
 
 type Props = {
   isOpen: boolean;
@@ -9,14 +10,18 @@ type Props = {
 
 export function Modal({ isOpen, onClose, children }: Props) {
   return (
-    <Dialog visible={isOpen} onDismiss={onClose}>
-      <View style={styles.modal}>{children}</View>
-    </Dialog>
+    <RNUIModal
+      visible={isOpen}
+      onBackgroundPress={onClose}
+      overlayBackgroundColor="rgba(0, 0, 0, 0.2)"
+    >
+      <View style={styles.container}>{children}</View>
+    </RNUIModal>
   );
 }
 
 const styles = StyleSheet.create({
-  modal: {
+  container: {
     backgroundColor: "white",
     borderRadius: 10,
     padding: 10,
