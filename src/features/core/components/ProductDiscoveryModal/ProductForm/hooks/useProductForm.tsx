@@ -1,20 +1,15 @@
-import { Button, StyleSheet, View } from "react-native";
-import { Text } from "@features/ui/components";
-import { useCreateProduct } from "@features/core/data-access/hooks/product";
+import { useBrands } from "@features/core/data-access/hooks/brand";
 import {
   useCategories,
   useCategoryDetails,
 } from "@features/core/data-access/hooks/category";
-import { useBrands } from "@features/core/data-access/hooks/brand";
+import { useCreateProduct } from "@features/core/data-access/hooks/product";
 import { useForm } from "@features/form/hooks";
-import { ProductBasicForm } from "./ProductbasicForm";
-import productBasicInfoSchema from "./schema/productBasicInfo.schema";
-import categoryDetailsInfoSchema from "./schema/categoryDetailsInfo.schema";
-import { Input } from "@features/ui/components/input";
+import productBasicInfoSchema from "../schema/productBasicInfo.schema";
+import categoryDetailsInfoSchema from "../schema/categoryDetailsInfo.schema";
 
-type Props = {
+type UseProductFormParams = {
   barCode: string;
-  onSubmit: () => void;
 };
 
 export type ProductBasicInfo = {
@@ -24,7 +19,11 @@ export type ProductBasicInfo = {
   categoryId: string;
 };
 
-export function CreateProductForm({ barCode, onSubmit }: Props) {
+type FormValues = ProductBasicInfo & Record<string, string>;
+
+export type useProductFormReturn = ReturnType<typeof useProductForm>;
+
+export function useProductForm({ barCode }: UseProductFormParams) {
   const { mutate: createProduct } = useCreateProduct();
 
   const { data: brands } = useBrands();
@@ -85,54 +84,27 @@ export function CreateProductForm({ barCode, onSubmit }: Props) {
         })
       ),
     });
-    onSubmit();
   };
 
-  return (
-    <View>
-      <View style={styles.header}>
-        <Text variant="title">Prodotto non trovato</Text>
-        <Text variant="body">Inserisci i dati del prodotto</Text>
-      </View>
-      <ProductBasicForm
-        {...{
-          brands,
-          categories,
-          errors: basicErrors,
-          setTouched: setBasicTouched,
-          setValue: setBasicValue,
-          values: basicValues,
-        }}
-      />
+  const values = { ...basicValues, ...detailsValues } as FormValues;
 
-      {categoryDetails?.map((categoryDetail) => {
-        if (categoryDetail.type === "string") {
-          return (
-            <Input
-              key={categoryDetail.id}
-              placeholder={categoryDetail.label}
-              value={detailsValues[categoryDetail.id]}
-              onChange={(value) => setDetailsValue(categoryDetail.id, value)}
-              onBlur={setDetailsTouched(categoryDetail.id)}
-              hasError={!!detailsErrors[categoryDetail.id]}
-              errorMessage={detailsErrors[categoryDetail.id]?.message}
-            />
-          );
-        }
-      })}
-
-      <View style={styles.footer}>
-        <Button title="CREATE" onPress={handleSubmit} />
-      </View>
-    </View>
-  );
+  return {
+    values,
+    handleSubmit,
+    /**
+     * For internal use only. Its content may change in future.
+     */
+    form: {
+      values,
+      basicErrors,
+      detailsErrors,
+      brands,
+      categories,
+      categoryDetails,
+      setBasicValue,
+      setDetailsValue,
+      setBasicTouched,
+      setDetailsTouched,
+    },
+  };
 }
-
-const styles = StyleSheet.create({
-  footer: {
-    paddingTop: 10,
-  },
-  header: {
-    paddingBottom: 10,
-  },
-});
