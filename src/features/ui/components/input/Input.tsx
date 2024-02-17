@@ -4,16 +4,18 @@ import { TextField } from "react-native-ui-lib";
 type InputType = "NUMERIC";
 
 type InputProps = {
+  readonly?: boolean;
   placeholder?: string;
   type?: InputType;
   value: string;
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
   hasError?: boolean;
   errorMessage?: string;
   onBlur?: () => void;
 };
 
 export function Input({
+  readonly,
   placeholder,
   type,
   value,
@@ -24,6 +26,7 @@ export function Input({
 }: InputProps) {
   return (
     <TextField
+      readonly={readonly}
       keyboardType={mapInputType(type)}
       floatingPlaceholder
       placeholder={placeholder}
