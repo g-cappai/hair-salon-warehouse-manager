@@ -3,7 +3,6 @@ import {
   useCategories,
   useCategoryDetails,
 } from "@features/core/data-access/hooks/category";
-import { useCreateProduct } from "@features/core/data-access/hooks/product";
 import { useForm } from "@features/form/hooks";
 import productBasicInfoSchema from "../schema/productBasicInfo.schema";
 import categoryDetailsInfoSchema from "../schema/categoryDetailsInfo.schema";
@@ -21,11 +20,11 @@ export type ProductBasicInfo = {
 
 type FormValues = ProductBasicInfo & Record<string, string>;
 
+type SubmitCallback = (formValues: FormValues) => void;
+
 export type useProductFormReturn = ReturnType<typeof useProductForm>;
 
 export function useProductForm({ barCode }: UseProductFormParams) {
-  const { mutate: createProduct } = useCreateProduct();
-
   const { data: brands } = useBrands();
   const { data: categories } = useCategories();
 
@@ -68,25 +67,14 @@ export function useProductForm({ barCode }: UseProductFormParams) {
     schema: categoryDetailsInfoSchema(categoryDetails),
   });
 
-  const handleSubmit = () => {
+  const values = { ...basicValues, ...detailsValues } as FormValues;
+
+  const handleSubmit = (cb: SubmitCallback) => {
     triggerBasicValidation();
     triggerDetailsValidation();
     if (!basicIsValid || !detailsIsValid) return;
-    createProduct({
-      barCode: basicValues.barCode,
-      brandId: basicValues.brandId,
-      categoryId: basicValues.categoryId,
-      quantity: basicValues.quantity,
-      details: Object.entries(detailsValues).map(
-        ([categoryDetailId, value]) => ({
-          categoryDetailId,
-          value,
-        })
-      ),
-    });
+    cb(values);
   };
-
-  const values = { ...basicValues, ...detailsValues } as FormValues;
 
   return {
     values,
