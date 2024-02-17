@@ -8,14 +8,7 @@ type Props = {
 export function ProductForm({ form }: Props) {
   return (
     <>
-      <Input
-        placeholder="Barcode"
-        value={form.values.barCode}
-        onChange={(value) => form.setBasicValue("barCode", value)}
-        onBlur={form.setBasicTouched("barCode")}
-        hasError={!!form.basicErrors.barCode}
-        errorMessage={form.basicErrors.barCode?.message}
-      />
+      <Input placeholder="Barcode" value={form.values.barCode} readonly />
       <Input
         placeholder="Quantity"
         type="NUMERIC"
