@@ -2,7 +2,7 @@ import { StyleSheet, View } from "react-native";
 import { useState } from "react";
 import { useFocusEffect } from "expo-router";
 import { Scanner } from "@features/scanner/components";
-import { ProductDiscoveryModal } from "@features/core/components";
+import { ScannedProductDialog } from "@features/core/components";
 
 export default function ScannerPage() {
   const [isScannerActive, setIsScannerActive] = useState(true);
@@ -29,7 +29,7 @@ export default function ScannerPage() {
         />
       </View>
       <View style={styles.row}>
-        <ProductDiscoveryModal
+        <ScannedProductDialog
           isOpen={!!barCode}
           barCode={barCode}
           onClose={handleCloseModal}
