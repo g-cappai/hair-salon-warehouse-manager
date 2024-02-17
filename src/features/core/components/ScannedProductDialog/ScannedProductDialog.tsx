@@ -3,9 +3,19 @@ import { Dialog } from "@features/ui/components";
 import { Suspense } from "react";
 import { DialogContent } from "./DialogContent";
 
-type Props = { isOpen: boolean; barCode: string; onClose: () => void };
+type Props = {
+  isOpen: boolean;
+  barCode: string;
+  onCreate: () => void;
+  onClose: () => void;
+};
 
-export function ScannedProductDialog({ isOpen, barCode, onClose }: Props) {
+export function ScannedProductDialog({
+  isOpen,
+  barCode,
+  onCreate,
+  onClose,
+}: Props) {
   if (!barCode) {
     console.log("ProductDiscoveryModal: barCode is required");
     return null;
@@ -16,7 +26,7 @@ export function ScannedProductDialog({ isOpen, barCode, onClose }: Props) {
       <Suspense fallback={<Loading />}>
         <DialogContent
           barCode={barCode}
-          onCreate={() => null}
+          onCreate={onCreate}
           onClose={onClose}
         />
       </Suspense>
