@@ -17,7 +17,12 @@ export default function ScannerPage() {
     return () => setIsScannerActive(false);
   });
 
+  const handleCloseDialog = () => {
+    setIsCreateModalOpen(true);
+  };
+
   const handleCloseModal = () => {
+    setIsCreateModalOpen(false);
     setBarCode("");
   };
 
@@ -35,12 +40,12 @@ export default function ScannerPage() {
           isOpen={!!barCode}
           barCode={barCode}
           onCreate={() => setIsCreateModalOpen(true)}
-          onClose={handleCloseModal}
+          onClose={handleCloseDialog}
         />
         <CreateProductModal
           barCode={barCode}
           isOpen={isCreateModalOpen}
-          onClose={() => setIsCreateModalOpen(false)}
+          onClose={handleCloseModal}
         />
       </View>
     </View>
