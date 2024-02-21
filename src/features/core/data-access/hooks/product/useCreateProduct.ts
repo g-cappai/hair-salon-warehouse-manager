@@ -18,6 +18,9 @@ export function useCreateProduct() {
   return useMutation({
     mutationFn: (productData: CreateProductParams) =>
       ProductService.createProduct(productData),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["products"] }),
+    onSuccess: (product) => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      queryClient.invalidateQueries({ queryKey: ["product", product.id] });
+    },
   });
 }
