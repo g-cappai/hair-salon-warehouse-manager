@@ -6,6 +6,8 @@ import {
 import { useForm } from "@features/form/hooks";
 import productBasicInfoSchema from "../schema/productBasicInfo.schema";
 import categoryDetailsInfoSchema from "../schema/categoryDetailsInfo.schema";
+import { ProductDetail } from "@features/core/entity/Product.entity";
+import { useEffect } from "react";
 
 type UseProductFormParams = {
   barCode: string;
@@ -18,7 +20,11 @@ export type ProductBasicInfo = {
   categoryId: string;
 };
 
-type FormValues = ProductBasicInfo & Record<string, string>;
+export type ProductDetails = {
+  details: ProductDetail[];
+};
+
+type FormValues = ProductBasicInfo & ProductDetails;
 
 type SubmitCallback = (formValues: FormValues) => void;
 
@@ -42,6 +48,7 @@ export function useProductForm({ barCode }: UseProductFormParams) {
     setTouched: setBasicTouched,
     errors: basicErrors,
     isValid: basicIsValid,
+    reset,
   } = useForm({
     initialValues: basicInitialValues,
     schema: productBasicInfoSchema(),
@@ -67,7 +74,13 @@ export function useProductForm({ barCode }: UseProductFormParams) {
     schema: categoryDetailsInfoSchema(categoryDetails),
   });
 
-  const values = { ...basicValues, ...detailsValues } as FormValues;
+  const values = {
+    ...basicValues,
+    details: Object.entries(detailsValues).map(([categoryDetailId, value]) => ({
+      categoryDetailId,
+      value,
+    })),
+  } as FormValues;
 
   const handleSubmit = (cb: SubmitCallback) => {
     triggerBasicValidation();
@@ -76,9 +89,16 @@ export function useProductForm({ barCode }: UseProductFormParams) {
     cb(values);
   };
 
+  useEffect(() => {
+    if (barCode) {
+      setBasicValue("barCode", barCode);
+    }
+  }, [barCode]);
+
   return {
     values,
     handleSubmit,
+    reset,
     /**
      * For internal use only. Its content may change in future.
      */

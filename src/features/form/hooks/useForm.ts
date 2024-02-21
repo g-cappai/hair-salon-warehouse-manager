@@ -28,6 +28,7 @@ export function useForm<T extends AnyObject>({
     setValue: setFieldValue,
     formState,
     trigger,
+    reset,
   } = useReactHookForm({
     /** @ts-expect-error: yupResolver will create a Resover<MakeOptionalKeys<T>> type.*/
     resolver: yupResolver(schema),
@@ -55,5 +56,6 @@ export function useForm<T extends AnyObject>({
     errors: formState.errors,
     isValid: formState.isValid,
     triggerValidation: trigger,
+    reset,
   };
 }
