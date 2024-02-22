@@ -103,7 +103,8 @@ export function useProductForm({ barCode }: UseProductFormParams) {
      * For internal use only. Its content may change in future.
      */
     form: {
-      values,
+      values: { ...basicValues, ...detailsValues } as FormValues &
+        Record<string, string>,
       basicErrors,
       detailsErrors,
       brands,
