@@ -2,9 +2,19 @@ import { useGetProductByBarCode } from "@features/core/data-access/hooks/product
 import { ProductFoundContent } from "./ProductFoundContent";
 import { ProductNotFoundContent } from "./ProductNotFoundContent";
 
-type Props = { barCode: string; onCreate: () => void; onClose: () => void };
+type Props = {
+  barCode: string;
+  onCreateProduct: () => void;
+  onUpdateProduct: () => void;
+  onClose: () => void;
+};
 
-export function DialogContent({ barCode, onCreate, onClose }: Props) {
+export function DialogContent({
+  barCode,
+  onCreateProduct,
+  onUpdateProduct,
+  onClose,
+}: Props) {
   const { data: product } = useGetProductByBarCode(barCode);
 
   if (!product) {
@@ -12,10 +22,16 @@ export function DialogContent({ barCode, onCreate, onClose }: Props) {
       <ProductNotFoundContent
         barCode={barCode}
         onClose={onClose}
-        onCreate={onCreate}
+        onCreateProduct={onCreateProduct}
       />
     );
   }
 
-  return <ProductFoundContent product={product} onClose={onClose} />;
+  return (
+    <ProductFoundContent
+      product={product}
+      onClose={onClose}
+      onUpdateProduct={onUpdateProduct}
+    />
+  );
 }

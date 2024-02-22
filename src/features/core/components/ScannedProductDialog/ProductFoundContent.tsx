@@ -1,18 +1,20 @@
 import { useUpdateProductQuantity } from "@features/core/data-access/hooks/product";
 import { Product } from "@features/core/entity/Product.entity";
-import { useRouter } from "@features/navigation/hooks";
 import { Button, Text } from "@features/ui/components";
 import { StyleSheet, View } from "react-native";
 
 type Props = {
   product: Product;
+  onUpdateProduct: () => void;
   onClose: () => void;
 };
 
-export function ProductFoundContent({ product, onClose }: Props) {
+export function ProductFoundContent({
+  product,
+  onUpdateProduct,
+  onClose,
+}: Props) {
   const { mutate: updateProductQuantity } = useUpdateProductQuantity();
-
-  const router = useRouter();
 
   const handleIncreaseByOne = () => {
     updateProductQuantity(
@@ -29,10 +31,7 @@ export function ProductFoundContent({ product, onClose }: Props) {
   };
 
   const handleGoToProductPage = () => {
-    router.push({
-      pathname: "/warehouse/product/[id]",
-      params: { id: product.id },
-    });
+    onUpdateProduct();
     onClose();
   };
 

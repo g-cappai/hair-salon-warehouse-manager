@@ -1,11 +1,19 @@
 import { Button, Text, View } from "@features/ui/components";
 import { StyleSheet } from "react-native";
 
-type Props = { barCode: string; onCreate: () => void; onClose: () => void };
+type Props = {
+  barCode: string;
+  onCreateProduct: () => void;
+  onClose: () => void;
+};
 
-export function ProductNotFoundContent({ barCode, onCreate, onClose }: Props) {
+export function ProductNotFoundContent({
+  barCode,
+  onCreateProduct,
+  onClose,
+}: Props) {
   const handleCreate = () => {
-    onCreate();
+    onCreateProduct();
     onClose();
   };
 

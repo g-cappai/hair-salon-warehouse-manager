@@ -6,14 +6,16 @@ import { DialogContent } from "./DialogContent";
 type Props = {
   isOpen: boolean;
   barCode: string;
-  onCreate: () => void;
+  onCreateProduct: () => void;
+  onUpdateProduct: () => void;
   onClose: () => void;
 };
 
 export function ScannedProductDialog({
   isOpen,
   barCode,
-  onCreate,
+  onCreateProduct,
+  onUpdateProduct,
   onClose,
 }: Props) {
   if (!barCode) {
@@ -26,7 +28,8 @@ export function ScannedProductDialog({
       <Suspense fallback={<Loading />}>
         <DialogContent
           barCode={barCode}
-          onCreate={onCreate}
+          onUpdateProduct={onUpdateProduct}
+          onCreateProduct={onCreateProduct}
           onClose={onClose}
         />
       </Suspense>
