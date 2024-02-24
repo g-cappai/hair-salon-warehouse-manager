@@ -4,19 +4,14 @@ import { StyleSheet } from "react-native";
 type Props = {
   barCode: string;
   onCreateProduct: () => void;
-  onClose: () => void;
+  onCancel: () => void;
 };
 
 export function ProductNotFoundContent({
   barCode,
   onCreateProduct,
-  onClose,
+  onCancel,
 }: Props) {
-  const handleCreate = () => {
-    onCreateProduct();
-    onClose();
-  };
-
   return (
     <>
       <View style={styles.header}>
@@ -27,8 +22,8 @@ export function ProductNotFoundContent({
         </Text>
       </View>
       <View style={styles.footer}>
-        <Button onPress={handleCreate} title="Crea prodotto" />
-        <Button variant="secondary" onPress={onClose} title="Annulla" />
+        <Button onPress={onCreateProduct} title="Crea prodotto" />
+        <Button variant="secondary" onPress={onCancel} title="Annulla" />
       </View>
     </>
   );

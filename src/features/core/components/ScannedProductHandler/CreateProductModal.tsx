@@ -1,9 +1,9 @@
 import { Button, Modal, Text, View } from "@features/ui/components";
 import { KeyboardAvoidingView, StyleSheet } from "react-native";
-import { useProductForm } from "./ProductForm/hooks/useProductForm";
-import { ProductForm } from "./ProductForm";
+import { useProductForm } from "../ProductForm/hooks/useProductForm";
+import { ProductForm } from "../ProductForm";
 import { ScrollView } from "react-native-gesture-handler";
-import { useCreateProduct } from "../data-access/hooks/product";
+import { useCreateProduct } from "../../data-access/hooks/product";
 
 type Props = {
   isOpen: boolean;

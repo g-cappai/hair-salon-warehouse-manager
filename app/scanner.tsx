@@ -1,14 +1,13 @@
 import { StyleSheet, View } from "react-native";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useFocusEffect } from "expo-router";
 import { Scanner } from "@features/scanner/components";
-import { ScannedProductDialog } from "@features/core/components";
-import { CreateProductModal } from "@features/core/components/CreateProductModal";
+import { ScannedProductHandler } from "@features/core/components";
+import { Text } from "@features/ui/components";
 
 export default function ScannerPage() {
   const [isScannerActive, setIsScannerActive] = useState(true);
   const [barCode, setBarCode] = useState("");
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(true);
   const isScanningPaused = !!barCode;
 
   useFocusEffect(() => {
@@ -16,15 +15,6 @@ export default function ScannerPage() {
 
     return () => setIsScannerActive(false);
   });
-
-  const handleCloseDialog = () => {
-    setIsCreateModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsCreateModalOpen(false);
-    setBarCode("");
-  };
 
   return (
     <View style={styles.container}>
@@ -35,19 +25,12 @@ export default function ScannerPage() {
           onScan={setBarCode}
         />
       </View>
-      <View style={styles.row}>
-        <ScannedProductDialog
-          isOpen={!!barCode}
+      <Suspense fallback={<Text variant="body">Loading</Text>}>
+        <ScannedProductHandler
           barCode={barCode}
-          onCreate={() => setIsCreateModalOpen(true)}
-          onClose={handleCloseDialog}
+          resetBarcode={() => setBarCode("")}
         />
-        <CreateProductModal
-          barCode={barCode}
-          isOpen={isCreateModalOpen}
-          onClose={handleCloseModal}
-        />
-      </View>
+      </Suspense>
     </View>
   );
 }

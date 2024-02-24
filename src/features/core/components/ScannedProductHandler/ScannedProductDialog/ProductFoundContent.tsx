@@ -5,34 +5,35 @@ import { StyleSheet, View } from "react-native";
 
 type Props = {
   product: Product;
-  onUpdateProduct: () => void;
-  onClose: () => void;
+  onUpdateProduct: (id: string) => void;
+  onCancel: () => void;
+  onSuccessfulUpdate: () => void;
 };
 
 export function ProductFoundContent({
   product,
   onUpdateProduct,
-  onClose,
+  onCancel,
+  onSuccessfulUpdate,
 }: Props) {
   const { mutate: updateProductQuantity } = useUpdateProductQuantity();
 
   const handleIncreaseByOne = () => {
     updateProductQuantity(
       { productId: product.id, newQuantity: product.quantity + 1 },
-      { onSuccess: onClose }
+      { onSuccess: onSuccessfulUpdate }
     );
   };
 
   const handleDecreaseByOne = () => {
     updateProductQuantity(
       { productId: product.id, newQuantity: product.quantity - 1 },
-      { onSuccess: onClose }
+      { onSuccess: onSuccessfulUpdate }
     );
   };
 
   const handleGoToProductPage = () => {
-    onUpdateProduct();
-    onClose();
+    onUpdateProduct(product.id);
   };
 
   return (
@@ -47,7 +48,7 @@ export function ProductFoundContent({
       <View style={styles.footer}>
         <Button title="+1" onPress={handleIncreaseByOne} />
         <Button title="-1" onPress={handleDecreaseByOne} />
-        <Button variant="secondary" onPress={onClose} title="Annulla" />
+        <Button variant="secondary" onPress={onCancel} title="Annulla" />
         <Button
           variant="tertiary"
           onPress={handleGoToProductPage}
