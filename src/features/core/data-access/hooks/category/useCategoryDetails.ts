@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { CategoryService } from "../../service";
+import CategoryService from "../../service/CategoryService";
 import { CategoryDetail } from "@features/core/entity/Category.entity";
 
 export function useCategoryDetails(categoryId: string) {

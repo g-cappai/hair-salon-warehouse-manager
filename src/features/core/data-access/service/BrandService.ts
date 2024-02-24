@@ -1,12 +1,6 @@
 import { Brand } from "@features/core/entity/Brand.entity";
 import { BrandRepository } from "../repository/brand.in-memory.repository";
 
-export const BrandService = {
-  getBrands,
-  getBrandDetails,
-  getBrandById,
-};
-
 async function getBrands(): Promise<Brand[]> {
   return BrandRepository.getBrands();
 }
@@ -19,3 +13,9 @@ async function getBrandDetails(brandId: string): Promise<Brand | null> {
 async function getBrandById(brandId: string): Promise<Brand | null> {
   return BrandRepository.getBrandById(brandId);
 }
+
+export default {
+  getBrands,
+  getBrandDetails,
+  getBrandById,
+};

@@ -1,5 +1,5 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { BrandService } from "../../service/BrandService";
+import BrandService from "../../service/BrandService";
 import { Brand } from "@features/core/entity/Brand.entity";
 
 export function useBrand(id: string) {

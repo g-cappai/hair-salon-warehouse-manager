@@ -1,16 +1,6 @@
 import { Product } from "../../entity/Product.entity";
 import { ProductRepository } from "../repository/product.in-memory.repository";
 
-export const ProductService = {
-  getProducts,
-  getProductById,
-  getProductByBarCode,
-  createProduct,
-  updateProduct,
-  updateProductQuantity,
-  deleteProductById,
-};
-
 async function getProducts(): Promise<Product[]> {
   return ProductRepository.getProducts();
 }
@@ -51,3 +41,13 @@ async function updateProductQuantity(
 async function deleteProductById(id: string): Promise<void> {
   return ProductRepository.deleteProduct(id);
 }
+
+export default {
+  getProducts,
+  getProductById,
+  getProductByBarCode,
+  createProduct,
+  updateProduct,
+  updateProductQuantity,
+  deleteProductById,
+};
