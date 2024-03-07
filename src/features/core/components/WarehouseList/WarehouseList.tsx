@@ -1,26 +1,14 @@
-import { Pressable, Text } from "react-native";
 import { List } from "src/features/ui/components";
-import { Link } from "@features/navigation/components";
-import { useGetProducts } from "@features/core/data-access/hooks/product";
+import { usePopulatedProducts } from "@features/core/data-access/hooks/product/usePopulatedProducts";
+import { WarehouseListItem } from "./WarehouseListItem";
 
 export function WarehouseList() {
-  const { data: products } = useGetProducts();
+  const { data: products } = usePopulatedProducts();
 
   return (
     <List
       data={products}
-      renderItem={({ item }) => (
-        <Link
-          href={{
-            pathname: "/warehouse/product/[id]",
-            params: { id: item.id },
-          }}
-        >
-          <Pressable>
-            <Text>{`Barcode: ${item.barCode} Quantity: ${item.quantity}`}</Text>
-          </Pressable>
-        </Link>
-      )}
+      renderItem={({ item }) => <WarehouseListItem product={item} />}
     />
   );
 }

@@ -1,4 +1,4 @@
-import { Tabs } from "expo-router";
+import { Stack } from "expo-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export default function RootLayout() {
@@ -6,16 +6,9 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Tabs
-        screenOptions={{
-          tabBarIconStyle: { display: "none" },
-          tabBarLabelPosition: "beside-icon",
-        }}
-      >
-        <Tabs.Screen name="warehouse" options={{ title: "Magazzino" }} />
-        <Tabs.Screen name="scanner" options={{ title: "Scanner" }} />
-        <Tabs.Screen name="index" options={{ href: null }} redirect={true} />
-      </Tabs>
+      <Stack>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      </Stack>
     </QueryClientProvider>
   );
 }

@@ -5,7 +5,7 @@ import {
 } from "@features/core/data-access/hooks/product";
 import { Link } from "@features/navigation/components";
 import { useRouter } from "@features/navigation/hooks";
-import { useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { Button, Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
@@ -66,6 +66,8 @@ export default function ProductPage() {
 
   return (
     <View>
+      <Stack.Screen options={{ title: `Prod. ${product.id}` }} />
+
       {isUpdateMode ? (
         <TextInput value={barCode} onChangeText={setBarCode} />
       ) : (
