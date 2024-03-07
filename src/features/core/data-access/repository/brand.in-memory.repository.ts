@@ -1,4 +1,5 @@
 import { Brand } from "@features/core/entity/Brand.entity";
+import { IBrandRepository } from "./types";
 
 export type BrandModel = {
   id: string;
@@ -31,4 +32,8 @@ export async function getBrandsByIds(ids: string[]): Promise<Brand[]> {
   return brandsByIds;
 }
 
-export const BrandRepository = { getBrandById, getBrands, getBrandsByIds };
+export const BrandRepository: IBrandRepository = {
+  getBrandById,
+  getBrands,
+  getBrandsByIds,
+};

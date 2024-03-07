@@ -1,5 +1,5 @@
 import { Brand } from "@features/core/entity/Brand.entity";
-import { BrandRepository } from "../repository/brand.in-memory.repository";
+import { BrandRepository } from "../repository";
 
 async function getBrands(): Promise<Brand[]> {
   return BrandRepository.getBrands();

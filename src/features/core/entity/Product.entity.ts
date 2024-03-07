@@ -15,12 +15,16 @@ export type ProductDetail = {
   value: string;
 };
 
-export type PopulatedProduct = Product & {
+export type PopulatedProduct = Omit<
+  Product,
+  "brandId" | "categoryId" | "details"
+> & {
   brand: Brand;
   category: Category;
   details: PopulatedProductDetail[];
 };
 
-export type PopulatedProductDetail = ProductDetail & {
+export type PopulatedProductDetail = {
+  value: string;
   categoryDetail: CategoryDetail;
 };

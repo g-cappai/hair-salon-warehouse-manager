@@ -3,6 +3,7 @@ import {
   CategoryDetail,
   CategoryDetailInputType,
 } from "@features/core/entity/Category.entity";
+import { ICategoryRepository } from "./types";
 
 export type CategoryModel = { id: string; name: string };
 
@@ -151,6 +152,17 @@ async function getCategoryDetails(
   }));
 }
 
+async function getCategoryDetailsByIds(
+  categoryIds: string[]
+): Promise<CategoryDetail[]> {
+  const categoryDetailsByIds: CategoryDetail[] = [];
+  for (const categoryId of categoryIds) {
+    const categoryDetails = await getCategoryDetails(categoryId);
+    categoryDetailsByIds.push(...categoryDetails);
+  }
+  return categoryDetailsByIds;
+}
+
 async function getCategoryById(categoryId: string): Promise<Category | null> {
   const category = categories.get(categoryId);
 
@@ -176,9 +188,10 @@ async function getCategoriesByIds(categoryIds: string[]): Promise<Category[]> {
   return categoriesByIds;
 }
 
-export const CategoryRepository = {
+export const CategoryRepository: ICategoryRepository = {
   getCategories,
   getCategoryDetails,
+  getCategoryDetailsByIds,
   getCategoryById,
   getCategoriesByIds,
 };

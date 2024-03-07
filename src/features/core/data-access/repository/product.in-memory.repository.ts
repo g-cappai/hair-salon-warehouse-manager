@@ -1,4 +1,9 @@
 import { Product } from "../../entity/Product.entity";
+import {
+  IProductRepository,
+  InsertProductParams,
+  UpdateProductParams,
+} from "./types";
 
 type ProductModel = {
   id: string;
@@ -45,8 +50,6 @@ async function getProducts(): Promise<Product[]> {
   return dbProducts;
 }
 
-type InsertProductParams = Omit<Product, "id">;
-
 async function insertProduct(
   newProduct: InsertProductParams
 ): Promise<Product> {
@@ -63,8 +66,6 @@ async function insertProduct(
 
   return dbProduct;
 }
-
-type UpdateProductParams = Partial<Product> & { id: Product["id"] };
 
 async function updateProduct(
   updatedProductData: UpdateProductParams
@@ -119,7 +120,7 @@ function deleteProduct(id: string): void {
   products.delete(id);
 }
 
-export const ProductRepository = {
+export const ProductRepository: IProductRepository = {
   getProducts,
   getProductById,
   getProductByBarCode,
