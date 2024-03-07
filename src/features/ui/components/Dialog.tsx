@@ -9,7 +9,7 @@ type Props = {
 
 export function Dialog({ isOpen, onClose, children }: Props) {
   return (
-    <RNUIDialog visible={isOpen} onDismiss={onClose}>
+    <RNUIDialog testID="dialog" visible={isOpen} onDismiss={onClose}>
       <View style={styles.modal}>{children}</View>
     </RNUIDialog>
   );
