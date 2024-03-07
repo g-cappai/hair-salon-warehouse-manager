@@ -13,7 +13,7 @@ export function ProductNotFoundContent({
   onCancel,
 }: Props) {
   return (
-    <>
+    <View testID="product-not-found-content">
       <View style={styles.header}>
         <Text variant="title">Prodotto non trovato!</Text>
         <Text variant="body">
@@ -25,7 +25,7 @@ export function ProductNotFoundContent({
         <Button onPress={onCreateProduct} title="Crea prodotto" />
         <Button variant="secondary" onPress={onCancel} title="Annulla" />
       </View>
-    </>
+    </View>
   );
 }
 

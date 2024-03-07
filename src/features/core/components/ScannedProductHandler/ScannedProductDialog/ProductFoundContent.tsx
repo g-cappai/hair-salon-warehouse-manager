@@ -1,7 +1,7 @@
 import { useUpdateProductQuantity } from "@features/core/data-access/hooks/product";
 import { Product } from "@features/core/entity/Product.entity";
-import { Button, Text } from "@features/ui/components";
-import { StyleSheet, View } from "react-native";
+import { Button, Text, View } from "@features/ui/components";
+import { StyleSheet } from "react-native";
 
 type Props = {
   product: Product;
@@ -37,7 +37,7 @@ export function ProductFoundContent({
   };
 
   return (
-    <>
+    <View testID="product-found-content">
       <View style={styles.header}>
         <Text variant="title">Prodotto trovato!</Text>
         <Text variant="body">
@@ -55,7 +55,7 @@ export function ProductFoundContent({
           title="Vai al prodotto"
         />
       </View>
-    </>
+    </View>
   );
 }
 
