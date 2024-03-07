@@ -1,3 +1,6 @@
+import { Brand } from "./Brand.entity";
+import { Category, CategoryDetail } from "./Category.entity";
+
 export type Product = {
   id: string;
   barCode: string;
@@ -10,4 +13,14 @@ export type Product = {
 export type ProductDetail = {
   categoryDetailId: string;
   value: string;
+};
+
+export type PopulatedProduct = Product & {
+  brand: Brand;
+  category: Category;
+  details: PopulatedProductDetail[];
+};
+
+export type PopulatedProductDetail = ProductDetail & {
+  categoryDetail: CategoryDetail;
 };
