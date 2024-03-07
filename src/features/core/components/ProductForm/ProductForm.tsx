@@ -22,6 +22,7 @@ export function ProductForm({ form }: Props) {
       />
 
       <Select
+        testID="brand-select"
         placeholder="Brand"
         data={form.brands?.map((b) => ({ label: b.name, value: b.id })) || []}
         selectedValue={form.values.brandId}
@@ -31,6 +32,7 @@ export function ProductForm({ form }: Props) {
         errorMessage={form.basicErrors.brandId?.message}
       />
       <Select
+        testID="category-select"
         placeholder="Category"
         data={
           form.categories?.map((c) => ({ label: c.name, value: c.id })) || []

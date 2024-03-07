@@ -2,6 +2,8 @@ import {
   Category,
   CategoryDetail,
 } from "@features/core/entity/Category.entity";
+import CategoryService from "../CategoryService";
+
 const mockCategories: Category[] = [
   { id: "1", name: "Category 1" },
   { id: "2", name: "Category 2" },
@@ -58,4 +60,4 @@ export default {
   getCategories,
   getCategoryDetails,
   getCategoryById,
-};
+} as typeof CategoryService;

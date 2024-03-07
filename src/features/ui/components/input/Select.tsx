@@ -10,6 +10,7 @@ type SelectProps<T> = {
   onBlur?: () => void;
   hasError?: boolean;
   errorMessage?: string;
+  testID?: string;
 };
 
 export function Select<T extends string | number>({
@@ -18,6 +19,7 @@ export function Select<T extends string | number>({
   selectedValue,
   hasError,
   errorMessage,
+  testID,
   onChange,
   onBlur,
 }: SelectProps<T>) {
@@ -29,6 +31,7 @@ export function Select<T extends string | number>({
 
   return (
     <Picker
+      testID={testID}
       floatingPlaceholder
       value={selectedValue}
       items={data}
@@ -40,7 +43,12 @@ export function Select<T extends string | number>({
     >
       {data.length > 0 &&
         data.map((item) => (
-          <Picker.Item key={item.value} value={item.value} label={item.label} />
+          <Picker.Item
+            key={item.value}
+            value={item.value}
+            label={item.label}
+            testID={`select-item-${item.value}`}
+          />
         ))}
     </Picker>
   );

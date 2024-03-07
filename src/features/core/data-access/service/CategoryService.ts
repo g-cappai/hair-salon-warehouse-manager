@@ -18,8 +18,10 @@ async function getCategoryById(categoryId: string): Promise<Category | null> {
   return CategoryRepository.getCategoryById(categoryId);
 }
 
-export default {
+const CategoryService = {
   getCategories,
   getCategoryDetails,
   getCategoryById,
 };
+
+export default CategoryService;
