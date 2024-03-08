@@ -21,6 +21,7 @@ export function useCreateProduct() {
     onSuccess: (product) => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
       queryClient.invalidateQueries({ queryKey: ["product", product.id] });
+      queryClient.invalidateQueries({ queryKey: ["product", product.barCode] });
     },
   });
 }
