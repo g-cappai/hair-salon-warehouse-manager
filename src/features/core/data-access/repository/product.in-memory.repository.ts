@@ -1,11 +1,12 @@
 import { Product } from "../../entity/Product.entity";
+import { products } from "./in-memory.data";
 import {
   IProductRepository,
   InsertProductParams,
   UpdateProductParams,
 } from "./types";
 
-type ProductModel = {
+export type ProductModel = {
   id: string;
   barCode: string;
   quantity: number;
@@ -14,12 +15,10 @@ type ProductModel = {
   details: ProductDetailsModel[];
 };
 
-type ProductDetailsModel = {
+export type ProductDetailsModel = {
   categoryDetailId: string;
   value: string;
 };
-
-const products = new Map<string, ProductModel>();
 
 // -----------------------------------------------------------------------------
 

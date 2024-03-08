@@ -1,17 +1,11 @@
 import { Brand } from "@features/core/entity/Brand.entity";
 import { IBrandRepository } from "./types";
+import { brands } from "./in-memory.data";
 
 export type BrandModel = {
   id: string;
   name: string;
 };
-
-const brands = new Map<string, BrandModel>(
-  [
-    { id: "0", name: "Alfaparf" },
-    { id: "1", name: "Evolution" },
-  ].map((v) => [v.id, v])
-);
 
 export async function getBrandById(id: string): Promise<Brand | null> {
   return brands.get(id) ?? null;

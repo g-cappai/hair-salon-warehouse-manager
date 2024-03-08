@@ -3,86 +3,15 @@ import {
   CategoryRepository,
   ProductRepository,
 } from "../repository";
+import { __seedInMemory } from "../repository/in-memory.data";
 import ProductService from "./ProductService";
 import { CategoryDetail } from "@features/core/entity/Category.entity";
 
+jest.mock("../repository");
+
 describe("ProductService", () => {
   describe("getPopulatedProducts", () => {
-    const mockProducts = [
-      {
-        id: "1",
-        barCode: "1234",
-        categoryId: "1",
-        brandId: "1",
-        quantity: 1,
-        details: [{ categoryDetailId: "1", value: "Category 1 Name" }],
-      },
-      {
-        id: "2",
-        barCode: "5678",
-        categoryId: "2",
-        brandId: "2",
-        quantity: 2,
-        details: [{ categoryDetailId: "3", value: "Category 2 Name" }],
-      },
-      {
-        id: "3",
-        barCode: "0000",
-        categoryId: "3",
-        brandId: "2",
-        quantity: 2,
-        details: [{ categoryDetailId: "5", value: "Category 3 Name" }],
-      },
-    ];
-    const mockCategories = [
-      { id: "1", name: "Category 1" },
-      { id: "2", name: "Category 2" },
-    ];
-    const mockCategoryDetails = [
-      {
-        id: "1",
-        categoryId: "1",
-        type: "string",
-        label: "Category 1 Name",
-        required: true,
-      },
-      {
-        id: "2",
-        categoryId: "1",
-        type: "string",
-        label: "Category 1 Number",
-        required: true,
-      },
-      {
-        id: "3",
-        categoryId: "2",
-        type: "string",
-        label: "Category 2 Name",
-        required: true,
-      },
-      {
-        id: "4",
-        categoryId: "2",
-        type: "string",
-        label: "Category 2 Number",
-        required: true,
-      },
-    ];
-    const mockBrands = [
-      { id: "1", name: "Brand 1" },
-      { id: "2", name: "Brand 2" },
-    ];
-
-    jest
-      .spyOn(ProductRepository, "getProducts")
-      .mockResolvedValue(mockProducts);
-    jest
-      .spyOn(CategoryRepository, "getCategoriesByIds")
-      .mockResolvedValue(mockCategories);
-    jest
-      .spyOn(CategoryRepository, "getCategoryDetailsByCategoryIds")
-      .mockResolvedValue(mockCategoryDetails as CategoryDetail[]);
-    jest.spyOn(BrandRepository, "getBrandsByIds").mockResolvedValue(mockBrands);
+    __seedInMemory();
 
     it("should return populated products", async () => {
       const result = await ProductService.getPopulatedProducts();
@@ -94,20 +23,30 @@ describe("ProductService", () => {
           quantity: 1,
           category: {
             id: "1",
-            name: "Category 1",
+            name: "cat.1",
           },
           brand: {
             id: "1",
-            name: "Brand 1",
+            name: "brand.1",
           },
           details: [
             {
-              value: "Category 1 Name",
+              value: "cat.det.0.val",
+              categoryDetail: {
+                id: "0",
+                categoryId: "1",
+                type: "string",
+                label: "cat.det.0.label",
+                required: true,
+              },
+            },
+            {
+              value: "cat.det.1.val",
               categoryDetail: {
                 id: "1",
                 categoryId: "1",
                 type: "string",
-                label: "Category 1 Name",
+                label: "cat.det.1.label",
                 required: true,
               },
             },
@@ -119,20 +58,30 @@ describe("ProductService", () => {
           quantity: 2,
           category: {
             id: "2",
-            name: "Category 2",
+            name: "cat.2",
           },
           brand: {
             id: "2",
-            name: "Brand 2",
+            name: "brand.2",
           },
           details: [
             {
-              value: "Category 2 Name",
+              value: "cat.det.2.val",
+              categoryDetail: {
+                id: "2",
+                categoryId: "2",
+                type: "string",
+                label: "cat.det.2.label",
+                required: true,
+              },
+            },
+            {
+              value: "cat.det.3.val",
               categoryDetail: {
                 id: "3",
                 categoryId: "2",
                 type: "string",
-                label: "Category 2 Name",
+                label: "cat.det.3.label",
                 required: true,
               },
             },
