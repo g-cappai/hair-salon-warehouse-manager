@@ -1,4 +1,4 @@
-import { render } from "@lib/test/testing-library";
+import { render, waitFor } from "@lib/test/testing-library";
 import { ScannedProductHandler } from "./ScannedProductHandler";
 
 jest.mock("@features/core/data-access/service/ProductService");
@@ -18,7 +18,7 @@ describe("ScannedProductHandler", () => {
       <ScannedProductHandler barCode="123456" resetBarcode={resetBarcodeMock} />
     );
     const dialog = await findByTestId("dialog");
-    expect(dialog).toBeOnTheScreen();
+    await waitFor(() => expect(dialog).toBeOnTheScreen());
   });
 
   it("should display ProductFoundContent when product is found", async () => {
@@ -29,7 +29,7 @@ describe("ScannedProductHandler", () => {
       />
     );
     const productFoundContent = await findByTestId("product-found-content");
-    expect(productFoundContent).toBeOnTheScreen();
+    await waitFor(() => expect(productFoundContent).toBeOnTheScreen());
   });
 
   it("should display ProductNotFoundContent when product is not found", async () => {
@@ -39,6 +39,6 @@ describe("ScannedProductHandler", () => {
     const productNotFoundContent = await findByTestId(
       "product-not-found-content"
     );
-    expect(productNotFoundContent).toBeOnTheScreen();
+    await waitFor(() => expect(productNotFoundContent).toBeOnTheScreen());
   });
 });
