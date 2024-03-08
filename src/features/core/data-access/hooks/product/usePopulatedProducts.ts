@@ -3,7 +3,7 @@ import ProductService from "../../service/ProductService";
 
 export function usePopulatedProducts() {
   return useQuery({
-    queryKey: ["products"],
+    queryKey: ["products", "populated"],
     queryFn: () => ProductService.getPopulatedProducts(),
   });
 }
