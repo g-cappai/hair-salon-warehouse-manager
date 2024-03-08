@@ -8,6 +8,7 @@ import productBasicInfoSchema from "../schema/productBasicInfo.schema";
 import categoryDetailsInfoSchema from "../schema/categoryDetailsInfo.schema";
 import { ProductDetail } from "@features/core/entity/Product.entity";
 import { useEffect } from "react";
+import { usePopulatedProductByBarCode } from "@features/core/data-access/hooks/product";
 
 type UseProductFormParams = {
   barCode: string;
@@ -31,14 +32,18 @@ type SubmitCallback = (formValues: FormValues) => void;
 export type useProductFormReturn = ReturnType<typeof useProductForm>;
 
 export function useProductForm({ barCode }: UseProductFormParams) {
+  const { data: product, isFetching: isFetchingProduct } =
+    usePopulatedProductByBarCode(barCode);
+
   const { data: brands } = useBrands();
   const { data: categories } = useCategories();
+  console.log("product", product);
 
   const basicInitialValues: ProductBasicInfo = {
     barCode,
-    quantity: 1,
-    brandId: "",
-    categoryId: "",
+    quantity: product?.quantity ?? 1,
+    brandId: product?.brand.id || "",
+    categoryId: product?.category.id || "",
   };
 
   const {
@@ -48,17 +53,24 @@ export function useProductForm({ barCode }: UseProductFormParams) {
     setTouched: setBasicTouched,
     errors: basicErrors,
     isValid: basicIsValid,
-    reset,
+    reset: resetBasicForm,
   } = useForm({
     initialValues: basicInitialValues,
     schema: productBasicInfoSchema(),
   });
 
-  const { data: categoryDetails } = useCategoryDetails(basicValues.categoryId);
+  const { data: categoryDetails, isFetching: isFetchingDetails } =
+    useCategoryDetails(basicValues.categoryId);
 
   const detailsInitialValues =
     categoryDetails?.reduce<Record<string, string>>((acc, categoryDetail) => {
-      acc[categoryDetail.id] = categoryDetail.defaultValue || "";
+      const productDetailValue = product?.details.find(
+        (d) => d.categoryDetail.id === categoryDetail.id
+      )?.value;
+
+      acc[categoryDetail.id] =
+        productDetailValue || categoryDetail.defaultValue || "";
+
       return acc;
     }, {}) || {};
 
@@ -69,6 +81,7 @@ export function useProductForm({ barCode }: UseProductFormParams) {
     setTouched: setDetailsTouched,
     errors: detailsErrors,
     isValid: detailsIsValid,
+    reset: resetDetailsForm,
   } = useForm<Record<string, string>>({
     initialValues: detailsInitialValues,
     schema: categoryDetailsInfoSchema(categoryDetails),
@@ -94,11 +107,23 @@ export function useProductForm({ barCode }: UseProductFormParams) {
       setBasicValue("barCode", barCode);
     }
   }, [barCode]);
+  console.log("gotData", !!product, !!categoryDetails);
+  console.log("isLoading", isFetchingProduct, isFetchingDetails);
+
+  useEffect(() => {
+    if (categoryDetails && !isFetchingDetails) {
+      resetDetailsForm(detailsInitialValues);
+    }
+
+    if (product && !isFetchingProduct) {
+      resetBasicForm(basicInitialValues);
+    }
+  }, [product, categoryDetails, isFetchingProduct, isFetchingDetails]);
 
   return {
     values,
     handleSubmit,
-    reset,
+    reset: resetBasicForm,
     /**
      * For internal use only. Its content may change in future.
      */
@@ -114,6 +139,11 @@ export function useProductForm({ barCode }: UseProductFormParams) {
       setDetailsValue,
       setBasicTouched,
       setDetailsTouched,
+      isLoading: isFetchingProduct || isFetchingDetails,
     },
   };
 }
+
+// Cerca il prodotto
+// Se esiste, popola il form con i dati del prodotto
+// Se non esiste, popola il form con i dati di default

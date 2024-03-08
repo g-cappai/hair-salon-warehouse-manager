@@ -1,11 +1,14 @@
 import { Input, Select } from "@features/ui/components/input";
 import { useProductFormReturn } from "./hooks/useProductForm";
+import { Text } from "@features/ui/components";
 
 type Props = {
   form: useProductFormReturn["form"];
 };
 
 export function ProductForm({ form }: Props) {
+  if (form.isLoading) return <Text variant="body">Is loading...</Text>;
+
   return (
     <>
       <Input placeholder="Barcode" value={form.values.barCode} readonly />
