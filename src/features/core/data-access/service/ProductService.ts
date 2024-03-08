@@ -56,16 +56,9 @@ async function getPopulatedProducts(): Promise<PopulatedProduct[]> {
   return populatedProducts;
 }
 
-async function getProductById(id: string): Promise<Product | null> {
-  return ProductRepository.getProductById(id);
-}
-
-async function getPopulatedProductById(
-  id: string
+async function __populateProduct(
+  product: Product
 ): Promise<PopulatedProduct | null> {
-  const product = await ProductRepository.getProductById(id);
-  if (!product) return null;
-
   const category = await CategoryRepository.getCategoryById(product.categoryId);
   const brand = await BrandRepository.getBrandById(product.brandId);
   const categoryDetails = await CategoryRepository.getCategoryDetails(
@@ -96,8 +89,31 @@ async function getPopulatedProductById(
   };
 }
 
+async function getProductById(id: string): Promise<Product | null> {
+  return ProductRepository.getProductById(id);
+}
+
+async function getPopulatedProductById(
+  id: string
+): Promise<PopulatedProduct | null> {
+  const product = await ProductRepository.getProductById(id);
+  if (!product) return null;
+
+  return __populateProduct(product);
+}
+
 async function getProductByBarCode(barCode: string): Promise<Product | null> {
   return ProductRepository.getProductByBarCode(barCode);
+}
+
+async function getPopulatedProductByBarCode(
+  barCode: string
+): Promise<PopulatedProduct | null> {
+  const product = await ProductRepository.getProductByBarCode(barCode);
+
+  if (!product) return null;
+
+  return __populateProduct(product);
 }
 
 type InsertProductParams = Omit<Product, "id">;
@@ -135,6 +151,7 @@ export default {
   getProductById,
   getPopulatedProductById,
   getProductByBarCode,
+  getPopulatedProductByBarCode,
   createProduct,
   updateProduct,
   updateProductQuantity,
