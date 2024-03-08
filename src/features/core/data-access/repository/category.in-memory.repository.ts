@@ -152,7 +152,7 @@ async function getCategoryDetails(
   }));
 }
 
-async function getCategoryDetailsByIds(
+async function getCategoryDetailsByCategoryIds(
   categoryIds: string[]
 ): Promise<CategoryDetail[]> {
   const categoryDetailsByIds: CategoryDetail[] = [];
@@ -191,7 +191,7 @@ async function getCategoriesByIds(categoryIds: string[]): Promise<Category[]> {
 export const CategoryRepository: ICategoryRepository = {
   getCategories,
   getCategoryDetails,
-  getCategoryDetailsByIds,
+  getCategoryDetailsByCategoryIds,
   getCategoryById,
   getCategoriesByIds,
 };

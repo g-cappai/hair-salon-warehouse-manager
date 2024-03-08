@@ -27,7 +27,9 @@ export interface IBrandRepository {
 export interface ICategoryRepository {
   getCategories: () => Promise<Category[]>;
   getCategoryDetails: (categoryId: string) => Promise<CategoryDetail[]>;
-  getCategoryDetailsByIds: (categoryIds: string[]) => Promise<CategoryDetail[]>;
+  getCategoryDetailsByCategoryIds: (
+    categoryIds: string[]
+  ) => Promise<CategoryDetail[]>;
   getCategoryById: (categoryId: string) => Promise<Category | null>;
   getCategoriesByIds: (categoryIds: string[]) => Promise<Category[]>;
 }

@@ -80,14 +80,13 @@ describe("ProductService", () => {
       .spyOn(CategoryRepository, "getCategoriesByIds")
       .mockResolvedValue(mockCategories);
     jest
-      .spyOn(CategoryRepository, "getCategoryDetailsByIds")
+      .spyOn(CategoryRepository, "getCategoryDetailsByCategoryIds")
       .mockResolvedValue(mockCategoryDetails as CategoryDetail[]);
     jest.spyOn(BrandRepository, "getBrandsByIds").mockResolvedValue(mockBrands);
 
     it("should return populated products", async () => {
       const result = await ProductService.getPopulatedProducts();
 
-      // Assert the result
       expect(result).toEqual([
         {
           id: "1",
@@ -155,6 +154,82 @@ describe("ProductService", () => {
       expect(result).not.toEqual(
         expect.arrayContaining([expect.objectContaining({ id: "3" })])
       );
+    });
+  });
+
+  describe("getPopulatedProductById", () => {
+    const mockProduct = {
+      id: "1",
+      barCode: "1234",
+      categoryId: "1",
+      brandId: "1",
+      quantity: 1,
+      details: [{ categoryDetailId: "1", value: "Category 1 Name" }],
+    };
+    const mockCategory = { id: "1", name: "Category 1" };
+    const mockCategoryDetails = [
+      {
+        id: "1",
+        categoryId: "1",
+        type: "string",
+        label: "Category 1 Name",
+        required: true,
+      },
+    ];
+    const mockBrand = { id: "1", name: "Brand 1" };
+
+    jest
+      .spyOn(ProductRepository, "getProductById")
+      .mockResolvedValue(mockProduct);
+    jest
+      .spyOn(CategoryRepository, "getCategoryById")
+      .mockResolvedValue(mockCategory);
+    jest
+      .spyOn(CategoryRepository, "getCategoryDetails")
+      .mockResolvedValue(mockCategoryDetails as CategoryDetail[]);
+    jest.spyOn(BrandRepository, "getBrandById").mockResolvedValue(mockBrand);
+
+    it("should return populated product", async () => {
+      const result = await ProductService.getPopulatedProductById("1");
+
+      // Assert the result
+      expect(result).toEqual({
+        id: "1",
+        barCode: "1234",
+        quantity: 1,
+        category: {
+          id: "1",
+          name: "Category 1",
+        },
+        brand: {
+          id: "1",
+          name: "Brand 1",
+        },
+        details: [
+          {
+            value: "Category 1 Name",
+            categoryDetail: {
+              id: "1",
+              categoryId: "1",
+              type: "string",
+              label: "Category 1 Name",
+              required: true,
+            },
+          },
+        ],
+      });
+    });
+
+    it("should skip products with broken relationships", async () => {
+      /**
+       * Ex. In case the corresponding category or brand is missing,
+       * should skip the product in order to avoid exceptions when
+       * trying to access the missing object.
+       */
+
+      const result = await ProductService.getPopulatedProductById("1");
+
+      expect(result).not.toEqual(expect.objectContaining({ id: "3" }));
     });
   });
 });

@@ -1,4 +1,8 @@
-import { PopulatedProduct, Product } from "../../entity/Product.entity";
+import {
+  PopulatedProduct,
+  PopulatedProductDetail,
+  Product,
+} from "../../entity/Product.entity";
 import {
   BrandRepository,
   CategoryRepository,
@@ -15,9 +19,8 @@ async function getPopulatedProducts(): Promise<PopulatedProduct[]> {
   const brandIds = Array.from(new Set(products.map((p) => p.brandId)));
 
   const categories = await CategoryRepository.getCategoriesByIds(categoryIds);
-  const categoryDetails = await CategoryRepository.getCategoryDetailsByIds(
-    categoryIds
-  );
+  const categoryDetails =
+    await CategoryRepository.getCategoryDetailsByCategoryIds(categoryIds);
   const brands = await BrandRepository.getBrandsByIds(brandIds);
 
   const populatedProducts = products
@@ -57,6 +60,42 @@ async function getProductById(id: string): Promise<Product | null> {
   return ProductRepository.getProductById(id);
 }
 
+async function getPopulatedProductById(
+  id: string
+): Promise<PopulatedProduct | null> {
+  const product = await ProductRepository.getProductById(id);
+  if (!product) return null;
+
+  const category = await CategoryRepository.getCategoryById(product.categoryId);
+  const brand = await BrandRepository.getBrandById(product.brandId);
+  const categoryDetails = await CategoryRepository.getCategoryDetails(
+    product.categoryId
+  );
+
+  const productDetails = product.details.map((productDetail) => {
+    const categoryDetail = categoryDetails.find(
+      (categoryDetail) => productDetail.categoryDetailId === categoryDetail.id
+    );
+    if (!categoryDetail) return null;
+    return {
+      value: productDetail.value,
+      categoryDetail,
+    };
+  });
+
+  if (!category || !brand || productDetails.some((d) => d === null))
+    return null;
+
+  return {
+    id: product.id,
+    barCode: product.barCode,
+    quantity: product.quantity,
+    category,
+    brand,
+    details: productDetails as PopulatedProductDetail[],
+  };
+}
+
 async function getProductByBarCode(barCode: string): Promise<Product | null> {
   return ProductRepository.getProductByBarCode(barCode);
 }
@@ -94,6 +133,7 @@ export default {
   getProducts,
   getPopulatedProducts,
   getProductById,
+  getPopulatedProductById,
   getProductByBarCode,
   createProduct,
   updateProduct,
