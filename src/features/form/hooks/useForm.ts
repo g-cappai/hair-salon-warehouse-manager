@@ -1,4 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useMemo } from "react";
 import {
   DefaultValues,
   FieldValues,
@@ -48,14 +49,17 @@ export function useForm<T extends AnyObject>({
       });
   }
 
-  return {
-    handleSubmit,
-    setValue,
-    setTouched,
-    values: watch(),
-    errors: formState.errors,
-    isValid: formState.isValid,
-    triggerValidation: trigger,
-    reset,
-  };
+  return useMemo(
+    () => ({
+      handleSubmit,
+      setValue,
+      setTouched,
+      values: watch(),
+      errors: formState.errors,
+      isValid: formState.isValid,
+      triggerValidation: trigger,
+      reset,
+    }),
+    [handleSubmit, setValue, setTouched, watch, formState, trigger, reset]
+  );
 }
