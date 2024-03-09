@@ -2,19 +2,15 @@ import { render } from "@testing-library/react-native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { PropsWithChildren, Suspense } from "react";
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      gcTime: 0,
-    },
-  },
-});
-
-export function invalidateTestQueries() {
-  queryClient.invalidateQueries();
-}
-
 export const Providers = ({ children }: PropsWithChildren) => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        gcTime: 0,
+      },
+    },
+  });
+
   return (
     <QueryClientProvider client={queryClient}>
       <Suspense fallback={null}>{children}</Suspense>
