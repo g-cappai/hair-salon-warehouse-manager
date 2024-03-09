@@ -9,6 +9,11 @@ const queryClient = new QueryClient({
     },
   },
 });
+
+export function invalidateTestQueries() {
+  queryClient.invalidateQueries();
+}
+
 export const Providers = ({ children }: PropsWithChildren) => {
   return (
     <QueryClientProvider client={queryClient}>
