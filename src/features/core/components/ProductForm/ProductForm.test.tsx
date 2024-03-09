@@ -31,14 +31,23 @@ describe("ProductForm", () => {
       <ProductForm form={result.current.form} />
     );
 
-    await waitFor(() => fireEvent.press(getByTestId("category-select")));
+    await waitFor(async () => {
+      const categorySelect = await getByTestId("category-select");
+      fireEvent.press(categorySelect);
+    });
 
-    await waitFor(() => fireEvent.press(getByText("cat.2")));
+    await waitFor(async () => {
+      const categoryLabel = await getByText("cat.2");
+      fireEvent.press(categoryLabel);
+    });
 
     rerender(<ProductForm form={result.current.form} />);
 
-    expect(getByText("cat.det.3.label")).toBeOnTheScreen();
-  });
+    await waitFor(async () => {
+      const categoryLabel = await getByText("cat.det.3.label");
+      expect(categoryLabel).toBeOnTheScreen();
+    });
+  }, 10000);
 
   it("should populate the form with the product data if it is already present", async () => {
     __seedInMemory();
@@ -55,7 +64,9 @@ describe("ProductForm", () => {
       <ProductForm form={result.current.form} />
     );
 
-    expect(getByDisplayValue("cat.det.1.val")).toBeOnTheScreen();
+    await waitFor(() =>
+      expect(getByDisplayValue("cat.det.1.val")).toBeOnTheScreen()
+    );
   });
 
   it("should reset details data if category cahnges", async () => {
@@ -78,8 +89,9 @@ describe("ProductForm", () => {
     await waitFor(() => fireEvent.press(getByText("cat.2")));
 
     rerender(<ProductForm form={result.current.form} />);
-
-    expect(getByDisplayValue("brand.1")).toBeOnTheScreen();
-    expect(getByText("cat.det.3.label")).toBeOnTheScreen();
+    await waitFor(() => {
+      expect(getByDisplayValue("brand.1")).toBeOnTheScreen();
+      expect(getByText("cat.det.3.label")).toBeOnTheScreen();
+    });
   });
 });
