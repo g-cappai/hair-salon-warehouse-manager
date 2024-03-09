@@ -69,7 +69,7 @@ describe("ProductForm", () => {
       result.current.form;
     });
 
-    const { getByTestId, getByText, rerender } = render(
+    const { getByTestId, getByText, getByDisplayValue, rerender } = render(
       <ProductForm form={result.current.form} />
     );
 
@@ -79,6 +79,7 @@ describe("ProductForm", () => {
 
     rerender(<ProductForm form={result.current.form} />);
 
+    expect(getByDisplayValue("brand.1")).toBeOnTheScreen();
     expect(getByText("cat.det.3.label")).toBeOnTheScreen();
   });
 });
