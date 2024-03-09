@@ -19,8 +19,10 @@ describe("ScannedProductHandler", () => {
     const { findByTestId } = render(
       <ScannedProductHandler barCode="123456" resetBarcode={resetBarcodeMock} />
     );
-    const dialog = await findByTestId("dialog");
-    await waitFor(() => expect(dialog).toBeOnTheScreen());
+    await waitFor(async () => {
+      const dialog = await findByTestId("dialog");
+      expect(dialog).toBeOnTheScreen();
+    });
   });
 
   it("should display ProductFoundContent when product is found", async () => {
