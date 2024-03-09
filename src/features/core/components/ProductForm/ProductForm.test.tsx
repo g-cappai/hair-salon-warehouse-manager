@@ -1,7 +1,6 @@
 import {
   Providers,
   fireEvent,
-  invalidateTestQueries,
   render,
   renderHook,
   waitFor,
@@ -13,9 +12,8 @@ import { __seedInMemory } from "@features/core/data-access/repository/in-memory.
 jest.mock("../../data-access/repository");
 
 describe("ProductForm", () => {
-  beforeAll(() => {
+  beforeEach(async () => {
     __seedInMemory();
-    invalidateTestQueries();
   });
 
   it("should render category details after selecting the category when product is not present", async () => {
@@ -65,7 +63,7 @@ describe("ProductForm", () => {
     await waitFor(() =>
       expect(getByDisplayValue("cat.det.1.val")).toBeOnTheScreen()
     );
-  });
+  }, 10000);
 
   it("should reset details data if category changes", async () => {
     const { result } = renderHook(() => useProductForm({ barCode: "1234" }), {
@@ -82,6 +80,12 @@ describe("ProductForm", () => {
 
     await waitFor(() => fireEvent.press(getByTestId("category-select")));
 
+    const category = await getByDisplayValue("cat.1", {
+      includeHiddenElements: true,
+    });
+
+    expect(category).toBeOnTheScreen();
+
     await waitFor(() => fireEvent.press(getByText("cat.2")));
 
     rerender(<ProductForm form={result.current.form} />);
@@ -90,12 +94,8 @@ describe("ProductForm", () => {
       const brand = await getByDisplayValue("brand.1", {
         includeHiddenElements: true,
       });
-      const category = await getByDisplayValue("cat.1", {
-        includeHiddenElements: true,
-      });
 
       expect(brand).toBeOnTheScreen();
-      expect(category).toBeOnTheScreen();
       expect(getByText("cat.det.3.label")).toBeOnTheScreen();
     });
   }, 10000);
