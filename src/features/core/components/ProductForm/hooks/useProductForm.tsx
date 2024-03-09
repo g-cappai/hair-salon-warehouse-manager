@@ -37,7 +37,6 @@ export function useProductForm({ barCode }: UseProductFormParams) {
 
   const { data: brands } = useBrands();
   const { data: categories } = useCategories();
-  console.log("product", product);
 
   const basicInitialValues: ProductBasicInfo = {
     barCode,
@@ -107,8 +106,6 @@ export function useProductForm({ barCode }: UseProductFormParams) {
       setBasicValue("barCode", barCode);
     }
   }, [barCode]);
-  console.log("gotData", !!product, !!categoryDetails);
-  console.log("isLoading", isFetchingProduct, isFetchingDetails);
 
   useEffect(() => {
     if (categoryDetails && !isFetchingDetails) {
