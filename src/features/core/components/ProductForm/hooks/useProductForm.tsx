@@ -7,7 +7,7 @@ import { useForm } from "@features/form/hooks";
 import productBasicInfoSchema from "../schema/productBasicInfo.schema";
 import categoryDetailsInfoSchema from "../schema/categoryDetailsInfo.schema";
 import { ProductDetail } from "@features/core/entity/Product.entity";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { usePopulatedProductByBarCode } from "@features/core/data-access/hooks/product";
 
 type UseProductFormParams = {
@@ -117,28 +117,41 @@ export function useProductForm({ barCode }: UseProductFormParams) {
     }
   }, [product, categoryDetails, isFetchingProduct, isFetchingDetails]);
 
-  return {
-    values,
-    handleSubmit,
-    reset: resetBasicForm,
-    /**
-     * For internal use only. Its content may change in future.
-     */
-    form: {
-      values: { ...basicValues, ...detailsValues } as FormValues &
-        Record<string, string>,
+  return useMemo(
+    () => ({
+      values,
+      handleSubmit,
+      reset: resetBasicForm,
+      /**
+       * For internal use only. Its content may change in future.
+       */
+      form: {
+        values: { ...basicValues, ...detailsValues } as FormValues &
+          Record<string, string>,
+        basicErrors,
+        detailsErrors,
+        brands,
+        categories,
+        categoryDetails,
+        setBasicValue,
+        setDetailsValue,
+        setBasicTouched,
+        setDetailsTouched,
+        isLoading: isFetchingProduct || isFetchingDetails,
+      },
+    }),
+    [
+      basicValues,
+      detailsValues,
       basicErrors,
       detailsErrors,
       brands,
       categories,
       categoryDetails,
-      setBasicValue,
-      setDetailsValue,
-      setBasicTouched,
-      setDetailsTouched,
-      isLoading: isFetchingProduct || isFetchingDetails,
-    },
-  };
+      isFetchingProduct,
+      isFetchingDetails,
+    ]
+  );
 }
 
 // Cerca il prodotto
