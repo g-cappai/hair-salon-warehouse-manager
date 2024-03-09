@@ -2,6 +2,7 @@ import { ProductDetail } from "@features/core/entity/Product.entity";
 import { useEffect, useMemo } from "react";
 import { useProductBasicInfo } from "./useProductBasicInfo";
 import { useProductDetails } from "./useProductDetails";
+import { usePopulatedProductByBarCode } from "@features/core/data-access/hooks/product";
 
 type UseProductFormParams = {
   barCode: string;
@@ -25,6 +26,8 @@ type SubmitCallback = (formValues: FormValues) => void;
 export type useProductFormReturn = ReturnType<typeof useProductForm>;
 
 export function useProductForm({ barCode }: UseProductFormParams) {
+  const { data: populatedProduct } = usePopulatedProductByBarCode(barCode);
+
   const {
     brands,
     categories,
@@ -35,7 +38,7 @@ export function useProductForm({ barCode }: UseProductFormParams) {
     resetBasicForm,
     setBasicTouched,
     triggerBasicValidation,
-  } = useProductBasicInfo(barCode);
+  } = useProductBasicInfo(barCode, populatedProduct);
 
   const {
     categoryDetails,
@@ -45,7 +48,7 @@ export function useProductForm({ barCode }: UseProductFormParams) {
     setDetailsTouched,
     setDetailsValue,
     triggerDetailsValidation,
-  } = useProductDetails(basicValues.categoryId);
+  } = useProductDetails(basicValues.categoryId, populatedProduct);
 
   const values = {
     ...basicValues,

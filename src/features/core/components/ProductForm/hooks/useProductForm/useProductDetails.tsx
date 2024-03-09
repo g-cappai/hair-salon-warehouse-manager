@@ -2,13 +2,21 @@ import { useCategoryDetails } from "@features/core/data-access/hooks/category";
 import categoryDetailsInfoSchema from "../../schema/categoryDetailsInfo.schema";
 import { useForm } from "@features/form/hooks";
 import { useMemo } from "react";
+import { PopulatedProduct } from "@features/core/entity/Product.entity";
 
-export function useProductDetails(selectedCategoryId: string) {
+export function useProductDetails(
+  selectedCategoryId: string,
+  product: PopulatedProduct | null
+) {
   const { data: categoryDetails } = useCategoryDetails(selectedCategoryId);
 
   const detailsInitialValues =
     categoryDetails?.reduce<Record<string, string>>((acc, categoryDetail) => {
-      acc[categoryDetail.id] = categoryDetail.defaultValue || "";
+      const productDetailValue = product?.details.find(
+        (detail) => detail.categoryDetail.id === categoryDetail.id
+      )?.value;
+      acc[categoryDetail.id] =
+        productDetailValue ?? categoryDetail.defaultValue ?? "";
 
       return acc;
     }, {}) || {};

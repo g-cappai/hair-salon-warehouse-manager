@@ -4,16 +4,20 @@ import { ProductBasicInfo } from "./useProductForm";
 import { useForm } from "@features/form/hooks";
 import productBasicInfoSchema from "../../schema/productBasicInfo.schema";
 import { useMemo } from "react";
+import { PopulatedProduct } from "@features/core/entity/Product.entity";
 
-export function useProductBasicInfo(barCode: string) {
+export function useProductBasicInfo(
+  barCode: string,
+  product: PopulatedProduct | null
+) {
   const { data: brands } = useBrands();
   const { data: categories } = useCategories();
 
   const basicInitialValues: ProductBasicInfo = {
     barCode,
-    quantity: 1,
-    brandId: "",
-    categoryId: "",
+    quantity: product?.quantity ?? 1,
+    brandId: product?.brand.id ?? "",
+    categoryId: product?.category.id ?? "",
   };
 
   const {
